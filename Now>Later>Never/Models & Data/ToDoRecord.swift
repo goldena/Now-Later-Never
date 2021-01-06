@@ -14,7 +14,7 @@ enum Category {
 }
 
 struct ToDoRecord {
-    var record: String
+    var title: String
     var category: Category
     var date: Date
     var isDone: Bool
