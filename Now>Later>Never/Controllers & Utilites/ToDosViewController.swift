@@ -8,21 +8,72 @@
 import UIKit
 
 class ToDosViewController: UIViewController {
-        
+    
+    // MARK: - Properties
     @IBOutlet private weak var ToDosTableView: UITableView!
     
+    private var toDoRecords: [ToDoRecord] = []
     private let toDoCellID = "ToDoReusableCellID"
-
-    private var toDoRecords = PersistentStorage.loadToDoRecords()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+   
         ToDosTableView.dataSource   = self
         ToDosTableView.delegate     = self
+        
+        toDoRecords = readToDoRecords()
+    }
+    
+    // MARK: - Methods
+    private func createToDoRecord(_ record: ToDoRecord) {
+        
+        switch PersistentStorage.createToDoRecord(record) {
+        case .success(_):
+            return
+        case .failure(let storageError):
+            print("\(storageError)")
+            return
+        }
+    }
+    
+    private func readToDoRecords() -> [ToDoRecord] {
+        
+        switch PersistentStorage.readToDoRecords() {
+        case .success(let toDoRecords):
+            return toDoRecords
+        case .failure(let storageError):
+            print("\(storageError)")
+            return []
+        }
+    }
+    
+    private func updateToDoRecords(at index: Int, with record: ToDoRecord) {
+        
+        switch PersistentStorage.updateToDoRecord(at: index, with: record) {
+        case .success(_):
+            return
+        case .failure(let storageError):
+            print("\(storageError)")
+            return
+        }
+    }
+    
+    private func deleteToDoRecord(at index: Int) {
+        
+        switch PersistentStorage.deleteToDoRecord(at: index) {
+        case .success(_):
+            toDoRecords = readToDoRecords()
+        case .failure(let storageError):
+            print("\(storageError)")
+        }
+    }
+    
+    private func updateUI() {
+        ToDosTableView.reloadData()
     }
 }
 
+// MARK: - Extensions
 extension ToDosViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
@@ -34,11 +85,11 @@ extension ToDosViewController: UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let toDoCell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
-                                                            for: indexPath) as? ToDoTableViewCell else {
+                                                                for: indexPath) as? ToDoTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
         
-        toDoCell.ToDoLabel.text = toDoRecords[indexPath.row].record
+        toDoCell.ToDoLabel.text = toDoRecords[indexPath.row].title
         return toDoCell
     }
 }
@@ -56,8 +107,7 @@ extension ToDosViewController: UITableViewDelegate {
                                         handler: { (action,
                                                     view,
                                                     completionHandler) in
-                                            // Update data source when user taps action
-                                            // self.dataSource?.setFavorite(!favorite, at: indexPath)
+                                            self.deleteToDoRecord(at: indexPath.row)
                                             completionHandler(true)
                                         })
         
@@ -80,8 +130,8 @@ extension ToDosViewController: UITableViewDelegate {
                                         handler: { (action,
                                                     view,
                                                     completionHandler) in
-                                            // Update data source when user taps action
-                                            // self.dataSource?.setFavorite(!favorite, at: indexPath)
+                                            self.deleteToDoRecord(at: indexPath.row)
+                                            self.updateUI()
                                             completionHandler(true)
                                         })
         
