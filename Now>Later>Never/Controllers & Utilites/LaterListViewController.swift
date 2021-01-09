@@ -24,9 +24,9 @@ class LaterListViewController: ToDoListViewController {
         toDoRecords = readToDoRecords()
     }
     
-    private func updateUI() {
-        ToDosTableView.reloadData()
-    }
+//    private func updateUI() {
+//        ToDosTableView.reloadData()
+//    }
 }
     
 // MARK: - Extensions
@@ -55,8 +55,8 @@ extension LaterListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let title = NSLocalizedString("Not today",
-                                      comment: "Move to Tomorrow ToDos")
+        let title = NSLocalizedString("Now",
+                                      comment: "Move to Now Tab")
 
         let action = UIContextualAction(style: .normal,
                                         title: title,
@@ -64,7 +64,8 @@ extension LaterListViewController: UITableViewDelegate {
                                                     view,
                                                     completionHandler) in
                                             self.deleteToDoRecord(at: indexPath.row)
-                                            self.updateUI()
+                                            tableView.deleteRows(at: [indexPath],
+                                                                 with: .fade)
                                             completionHandler(true)
                                         })
 
@@ -80,7 +81,7 @@ extension LaterListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let title = NSLocalizedString("Never",
-                                      comment: "Delete")
+                                      comment: "Move to Never Tab")
 
         let action = UIContextualAction(style: .destructive,
                                         title: title,
@@ -88,7 +89,8 @@ extension LaterListViewController: UITableViewDelegate {
                                                     view,
                                                     completionHandler) in
                                             self.deleteToDoRecord(at: indexPath.row)
-                                            self.updateUI()
+                                            tableView.deleteRows(at: [indexPath],
+                                                                 with: .fade)
                                             completionHandler(true)
                                         })
 
