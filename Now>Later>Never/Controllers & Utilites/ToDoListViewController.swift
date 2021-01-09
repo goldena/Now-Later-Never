@@ -11,7 +11,7 @@ class ToDoListViewController: UIViewController {
 
     // MARK: - Properties    
     var toDoRecords: [ToDoRecord] = []
-    var list: List = .Never // Placeholder, will be changed by an inheriting object
+    var list: List!
     
     // MARK: - Methods
     func createToDoRecord(_ record: ToDoRecord) {

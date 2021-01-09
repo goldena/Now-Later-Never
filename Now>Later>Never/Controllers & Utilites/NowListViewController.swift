@@ -40,13 +40,13 @@ extension NowListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let toDoCell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
+        guard let cell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
                                                                 for: indexPath) as? ToDoTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        toDoCell.ToDoLabel.text = toDoRecords[indexPath.row].title
-        return toDoCell
+        cell.ToDoLabel.text = toDoRecords[indexPath.row].title
+        return cell
     }
 }
 
@@ -64,6 +64,7 @@ extension NowListViewController: UITableViewDelegate {
                                                     view,
                                                     completionHandler) in
                                             self.deleteToDoRecord(at: indexPath.row)
+                                            self.updateUI()
                                             completionHandler(true)
                                         })
 
@@ -101,6 +102,5 @@ extension NowListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-
     }
 }
