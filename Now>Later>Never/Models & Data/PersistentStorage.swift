@@ -49,8 +49,32 @@ class PersistentStorage {
         ]
 
     //: [ToDoRecord]   = []
-    static private var neverList: [ToDoRecord]      = []
-    static private var doneList: [ToDoRecord]       = []
+    static private var neverList: [ToDoRecord] =
+        [ToDoRecord(title: "test21", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test22", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test23", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test24", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test25", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test26", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test27", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test28", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test29", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test30", category: .Personal, date: Date(), isDone: false),
+        ]
+
+    static private var doneList: [ToDoRecord] =
+        [ToDoRecord(title: "test31", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test32", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test33", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test34", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test35", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test36", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test37", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test38", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test39", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test40", category: .Personal, date: Date(), isDone: false),
+        ]
+
 
     static func createToDoRecord(_ record: ToDoRecord,
                                  on list: List) -> Result<Bool, StorageErrors> {
