@@ -13,7 +13,7 @@ enum Category {
     case Education
 }
 
-enum List {
+enum ListType {
     case Now
     case Later
     case Never

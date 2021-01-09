@@ -11,7 +11,7 @@ class ToDoListViewController: UIViewController {
 
     // MARK: - Properties    
     var toDoRecords: [ToDoRecord] = []
-    var list: List!
+    var list: ListType!
     
     // MARK: - Methods
     func createToDoRecord(_ record: ToDoRecord) {
@@ -38,7 +38,7 @@ class ToDoListViewController: UIViewController {
     
     func updateToDoRecords(at index: Int, with record: ToDoRecord) {
         
-        switch PersistentStorage.updateToDoRecord(at: index, with: record, on: .Now) {
+        switch PersistentStorage.updateToDoRecord(at: index, with: record, on: list) {
         case .success(_):
             return
         case .failure(let storageError):

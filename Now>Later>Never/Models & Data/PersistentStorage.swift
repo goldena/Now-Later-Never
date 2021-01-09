@@ -35,7 +35,7 @@ class PersistentStorage {
          ToDoRecord(title: "test10", category: .Personal, date: Date(), isDone: false),
         ]
     
-    static private var tomorrowList =
+    static private var laterList =
         [ToDoRecord(title: "test11", category: .Personal, date: Date(), isDone: false),
          ToDoRecord(title: "test12", category: .Personal, date: Date(), isDone: false),
          ToDoRecord(title: "test13", category: .Personal, date: Date(), isDone: false),
@@ -48,7 +48,6 @@ class PersistentStorage {
          ToDoRecord(title: "test20", category: .Personal, date: Date(), isDone: false),
         ]
 
-    //: [ToDoRecord]   = []
     static private var neverList: [ToDoRecord] =
         [ToDoRecord(title: "test21", category: .Personal, date: Date(), isDone: false),
          ToDoRecord(title: "test22", category: .Personal, date: Date(), isDone: false),
@@ -75,14 +74,15 @@ class PersistentStorage {
          ToDoRecord(title: "test40", category: .Personal, date: Date(), isDone: false),
         ]
 
-
+    // MARK: - Methods
     static func createToDoRecord(_ record: ToDoRecord,
-                                 on list: List) -> Result<Bool, StorageErrors> {
+                                 on list: ListType) -> Result<Bool, StorageErrors> {
+        
         switch list {
         case .Now:
             nowList.append(record)
         case .Later:
-            tomorrowList.append(record)
+            laterList.append(record)
         case .Never:
             neverList.append(record)
         case .Done:
@@ -92,12 +92,13 @@ class PersistentStorage {
         return .success(true)
     }
     
-    static func readToDoRecords(from list: List) -> Result<[ToDoRecord], StorageErrors> {
+    static func readToDoRecords(from list: ListType) -> Result<[ToDoRecord], StorageErrors> {
+        
         switch list {
         case .Now:
             return .success(nowList)
         case .Later:
-            return .success(tomorrowList)
+            return .success(laterList)
         case .Never:
             return .success(neverList)
         case .Done:
@@ -107,39 +108,60 @@ class PersistentStorage {
 
     static func updateToDoRecord(at index: Int,
                                  with record: ToDoRecord,
-                                 on list: List) -> Result<Bool, StorageErrors> {
-        if index >= 0 && index < nowList.count {
-            switch list {
-            case .Now:
-                nowList[index] = record
-            case .Later:
-                tomorrowList[index] = record
-            case .Never:
-                neverList[index] = record
-            case .Done:
-                doneList[index] = record
-            }
-            return .success(true)
-        } else {
+                                 on list: ListType) -> Result<Bool, StorageErrors> {
+        
+        guard checkBounds(of: list, for: index) else {
             return .failure(.UnableToUpdateRecordError)
         }
+        
+        switch list {
+        case .Now:
+            nowList[index] = record
+        case .Later:
+            laterList[index] = record
+        case .Never:
+            neverList[index] = record
+        case .Done:
+            doneList[index] = record
+        }
+        
+        return .success(true)
     }
     
     static func deleteToDoRecord(at index: Int,
-                                 on list: List) -> Result<ToDoRecord, StorageErrors> {
-        if index >= 0 && index < nowList.count {
-            switch list {
-            case .Now:
-                return .success(nowList.remove(at: index))
-            case .Later:
-                return .success(tomorrowList.remove(at: index))
-            case .Never:
-                return .success(neverList.remove(at: index))
-            case .Done:
-                return .success(doneList.remove(at: index))
-            }
-        } else {
+                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
+
+        guard checkBounds(of: list, for: index) else {
             return .failure(.UnableToDeleteRecordError)
+        }
+        
+        switch list {
+        case .Now:
+            return .success(nowList.remove(at: index))
+        case .Later:
+            return .success(laterList.remove(at: index))
+        case .Never:
+            return .success(neverList.remove(at: index))
+        case .Done:
+            return .success(doneList.remove(at: index))
+        }
+    }
+    
+    private static func checkBounds(of list: ListType, for index: Int) -> Bool {
+
+        guard index >= 0 else {
+            return false
+        }
+        
+        switch list {
+        case .Now:
+            return index < nowList.count
+        case .Later:
+            return index < laterList.count
+        case .Never:
+            return index < neverList.count
+        case .Done:
+            return index < doneList.count
         }
     }
 }
