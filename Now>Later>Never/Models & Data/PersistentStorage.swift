@@ -76,7 +76,7 @@ class PersistentStorage {
 
     // MARK: - Methods
     static func createToDoRecord(_ record: ToDoRecord,
-                                 on list: ListType) -> Result<Bool, StorageErrors> {
+                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
         
         switch list {
         case .Now:
@@ -89,7 +89,7 @@ class PersistentStorage {
             doneList.append(record)
         }
         
-        return .success(true)
+        return .success(record)
     }
     
     static func readToDoRecords(from list: ListType) -> Result<[ToDoRecord], StorageErrors> {
@@ -108,7 +108,7 @@ class PersistentStorage {
 
     static func updateToDoRecord(at index: Int,
                                  with record: ToDoRecord,
-                                 on list: ListType) -> Result<Bool, StorageErrors> {
+                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
         
         guard checkBounds(of: list, for: index) else {
             return .failure(.UnableToUpdateRecordError)
@@ -125,7 +125,7 @@ class PersistentStorage {
             doneList[index] = record
         }
         
-        return .success(true)
+        return .success(record)
     }
     
     static func deleteToDoRecord(at index: Int,
@@ -146,7 +146,7 @@ class PersistentStorage {
             return .success(doneList.remove(at: index))
         }
     }
-    
+        
     private static func checkBounds(of list: ListType, for index: Int) -> Bool {
 
         guard index >= 0 else {

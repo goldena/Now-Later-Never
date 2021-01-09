@@ -10,6 +10,8 @@ import UIKit
 class ToDoListViewController: UIViewController {
 
     // MARK: - Properties    
+    let toDoCellID = "ToDoReusableCellID"
+
     var toDoRecords: [ToDoRecord] = []
     var list: ListType!
     
@@ -39,21 +41,31 @@ class ToDoListViewController: UIViewController {
     func updateToDoRecords(at index: Int, with record: ToDoRecord) {
         
         switch PersistentStorage.updateToDoRecord(at: index, with: record, on: list) {
-        case .success(_):
-            return
+        case .success(let record):
+            toDoRecords[index] = record
         case .failure(let storageError):
             print("\(storageError)")
-            return
         }
     }
     
-    func deleteToDoRecord(at index: Int) {
+    func deleteToDoRecord(at index: Int) -> ToDoRecord? {
         
         switch PersistentStorage.deleteToDoRecord(at: index, on: list) {
-        case .success(_):
-            toDoRecords = readToDoRecords()
+        case .success(let record):
+            toDoRecords.remove(at: index)
+            return record
         case .failure(let storageError):
             print("\(storageError)")
+            return nil
         }
+    }
+    
+    func moveToDoRecord(at index: Int, to list: ListType) {
+        
+        guard let record = deleteToDoRecord(at: index) else {
+            return
+        }
+        
+        PersistentStorage.createToDoRecord(record, on: list)
     }
 }

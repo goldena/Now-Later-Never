@@ -11,8 +11,6 @@ class NowListViewController: ToDoListViewController {
     
     // MARK: - Properties
     @IBOutlet private weak var ToDosTableView: UITableView!
-
-    private let toDoCellID = "ToDoReusableCellID"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +21,11 @@ class NowListViewController: ToDoListViewController {
         list = .Now
         toDoRecords = readToDoRecords()
     }
-    
+
+//    override func viewDidAppear(_ animated: Bool) {
+//        updateUI()
+//    }
+//    
 //    private func updateUI() {
 //        ToDosTableView.reloadData()
 //    }
@@ -63,7 +65,8 @@ extension NowListViewController: UITableViewDelegate {
                                         handler: { (action,
                                                     view,
                                                     completionHandler) in
-                                            self.deleteToDoRecord(at: indexPath.row)
+                                            self.moveToDoRecord(at: indexPath.row,
+                                                                to: .Later)
                                             tableView.deleteRows(at: [indexPath],
                                                                  with: .fade)
                                             completionHandler(true)
@@ -88,7 +91,8 @@ extension NowListViewController: UITableViewDelegate {
                                         handler: { (action,
                                                     view,
                                                     completionHandler) in
-                                            self.deleteToDoRecord(at: indexPath.row)
+                                            self.moveToDoRecord(at: indexPath.row,
+                                                                to: .Never)
                                             tableView.deleteRows(at: [indexPath],
                                                                  with: .fade)
                                             completionHandler(true)
