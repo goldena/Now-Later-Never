@@ -127,6 +127,9 @@
                     <tabBarItem key="tabBarItem" title="Later" id="bZD-yb-Esf">
                         <imageReference key="image" image="arrow.forward" catalog="system" symbolScale="large"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="ToDosTableView" destination="i0e-vV-en0" id="oqw-yQ-pca"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRI-UE-8lQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

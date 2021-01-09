@@ -35,7 +35,20 @@ class PersistentStorage {
          ToDoRecord(title: "test10", category: .Personal, date: Date(), isDone: false),
         ]
     
-    static private var tomorrowList: [ToDoRecord]   = []
+    static private var tomorrowList =
+        [ToDoRecord(title: "test1", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test2", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test3", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test4", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test5", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test6", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test7", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test8", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test9", category: .Personal, date: Date(), isDone: false),
+         ToDoRecord(title: "test10", category: .Personal, date: Date(), isDone: false),
+        ]
+
+    //: [ToDoRecord]   = []
     static private var neverList: [ToDoRecord]      = []
     static private var doneList: [ToDoRecord]       = []
 
@@ -44,7 +57,7 @@ class PersistentStorage {
         switch list {
         case .Now:
             nowList.append(record)
-        case .Tomorrow:
+        case .Later:
             tomorrowList.append(record)
         case .Never:
             neverList.append(record)
@@ -59,7 +72,7 @@ class PersistentStorage {
         switch list {
         case .Now:
             return .success(nowList)
-        case .Tomorrow:
+        case .Later:
             return .success(tomorrowList)
         case .Never:
             return .success(neverList)
@@ -75,7 +88,7 @@ class PersistentStorage {
             switch list {
             case .Now:
                 nowList[index] = record
-            case .Tomorrow:
+            case .Later:
                 tomorrowList[index] = record
             case .Never:
                 neverList[index] = record
@@ -94,7 +107,7 @@ class PersistentStorage {
             switch list {
             case .Now:
                 return .success(nowList.remove(at: index))
-            case .Tomorrow:
+            case .Later:
                 return .success(tomorrowList.remove(at: index))
             case .Never:
                 return .success(neverList.remove(at: index))

@@ -15,7 +15,7 @@ enum Category {
 
 enum List {
     case Now
-    case Tomorrow
+    case Later
     case Never
     case Done
 }
