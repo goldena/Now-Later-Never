@@ -1,14 +1,14 @@
 //
-//  ViewController.swift
+//  ToDoListViewController.swift
 //  Now>Later>Never
 //
-//  Created by Denis Goloborodko on 3.01.21.
+//  Created by Denis Goloborodko on 9.01.21.
 //
 
 import UIKit
 
-class NowListViewController: UIViewController {
-    
+class ToDoListViewController: UIViewController {
+
     // MARK: - Properties
     @IBOutlet private weak var ToDosTableView: UITableView!
     
@@ -23,7 +23,7 @@ class NowListViewController: UIViewController {
         
         toDoRecords = readToDoRecords()
     }
-    
+        
     // MARK: - Methods
     private func createToDoRecord(_ record: ToDoRecord) {
         
@@ -74,7 +74,7 @@ class NowListViewController: UIViewController {
 }
 
 // MARK: - Extensions
-extension NowListViewController: UITableViewDataSource {
+extension ToDoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -94,7 +94,7 @@ extension NowListViewController: UITableViewDataSource {
     }
 }
 
-extension NowListViewController: UITableViewDelegate {
+extension ToDoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

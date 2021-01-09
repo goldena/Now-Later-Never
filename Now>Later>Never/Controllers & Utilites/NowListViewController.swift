@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NowListViewController: UIViewController {
+class NowListViewController: ToDoListViewController {
     
     // MARK: - Properties
     @IBOutlet private weak var ToDosTableView: UITableView!

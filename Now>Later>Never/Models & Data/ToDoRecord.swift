@@ -13,6 +13,13 @@ enum Category {
     case Education
 }
 
+enum List {
+    case Now
+    case Tomorrow
+    case Never
+    case Done
+}
+
 struct ToDoRecord {
     var title: String
     var category: Category

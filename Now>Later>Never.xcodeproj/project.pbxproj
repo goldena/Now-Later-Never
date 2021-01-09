@@ -18,7 +18,9 @@
 		CF3E0C3E25A1F25E00D51A96 /* ToDoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C3D25A1F25E00D51A96 /* ToDoRecord.swift */; };
 		CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C4225A1F2FE00D51A96 /* PersistentStorage.swift */; };
 		CF8D7B6325A1F94F00973328 /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */; };
-		CF8D7B6B25A2880300973328 /* ToDosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6A25A2880300973328 /* ToDosViewController.swift */; };
+		CF8D7B6B25A2880300973328 /* NowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6A25A2880300973328 /* NowListViewController.swift */; };
+		CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */; };
+		CF8D7B7E25A9D71900973328 /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +58,9 @@
 		CF3E0C3D25A1F25E00D51A96 /* ToDoRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRecord.swift; sourceTree = "<group>"; };
 		CF3E0C4225A1F2FE00D51A96 /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
 		CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
-		CF8D7B6A25A2880300973328 /* ToDosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDosViewController.swift; sourceTree = "<group>"; };
+		CF8D7B6A25A2880300973328 /* NowListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowListViewController.swift; sourceTree = "<group>"; };
+		CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterListViewController.swift; sourceTree = "<group>"; };
+		CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,8 +162,10 @@
 		CF3E0C3C25A1F0F800D51A96 /* Controllers & Utilites */ = {
 			isa = PBXGroup;
 			children = (
-				CF8D7B6A25A2880300973328 /* ToDosViewController.swift */,
+				CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */,
 				CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */,
+				CF8D7B6A25A2880300973328 /* NowListViewController.swift */,
+				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
 			);
 			path = "Controllers & Utilites";
 			sourceTree = "<group>";
@@ -297,9 +303,11 @@
 				CF8D7B6325A1F94F00973328 /* ToDoTableViewCell.swift in Sources */,
 				CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */,
 				CF3E0C0225A1F03000D51A96 /* AppDelegate.swift in Sources */,
-				CF8D7B6B25A2880300973328 /* ToDosViewController.swift in Sources */,
+				CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */,
+				CF8D7B6B25A2880300973328 /* NowListViewController.swift in Sources */,
 				CF3E0C0C25A1F03000D51A96 /* Now_Later_Never.xcdatamodeld in Sources */,
 				CF3E0C0425A1F03000D51A96 /* SceneDelegate.swift in Sources */,
+				CF8D7B7E25A9D71900973328 /* ToDoListViewController.swift in Sources */,
 				CF3E0C3E25A1F25E00D51A96 /* ToDoRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

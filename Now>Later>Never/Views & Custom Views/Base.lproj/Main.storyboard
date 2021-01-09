@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Alp-Fr-bbI">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--To Dos View Controller-->
+        <!--Now-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ToDosViewController" customModule="Now_Later_Never" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="BYZ-38-t0r" customClass="NowListViewController" customModule="Now_Later_Never" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="Now View">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="300-sA-iDc">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoReusableCellID" id="VnM-N4-Qlu" customClass="ToDoTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
@@ -56,16 +57,140 @@
                             <constraint firstItem="300-sA-iDc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VuO-Nh-lcj"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Now" id="lnS-YM-1TH">
+                        <imageReference key="image" image="list.triangle" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="ToDosTableView" destination="300-sA-iDc" id="xtU-71-MRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1048" y="-492"/>
+        </scene>
+        <!--Later-->
+        <scene sceneID="D7z-b7-8Ag">
+            <objects>
+                <viewController id="wbY-Zv-8Os" customClass="LaterListViewController" customModule="Now_Later_Never" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="63N-LL-LgU" userLabel="Later View">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="pCv-Bz-oy6">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i0e-vV-en0">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoReusableCellID" id="M1b-Th-feV" customClass="ToDoTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M1b-Th-feV" id="oIh-6s-93G">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhA-Ib-MeW">
+                                                            <rect key="frame" x="20" y="38" width="48" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="dhA-Ib-MeW" firstAttribute="centerY" secondItem="oIh-6s-93G" secondAttribute="centerY" id="D4C-d5-DPZ"/>
+                                                        <constraint firstItem="dhA-Ib-MeW" firstAttribute="leading" secondItem="oIh-6s-93G" secondAttribute="leadingMargin" id="Q8g-Oj-n3J"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="ToDoLabel" destination="dhA-Ib-MeW" id="CrW-Dz-Nb8"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="dBH-Am-uYt"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="i0e-vV-en0" firstAttribute="bottom" secondItem="dBH-Am-uYt" secondAttribute="bottom" id="Bba-0n-z0W"/>
+                                    <constraint firstItem="i0e-vV-en0" firstAttribute="top" secondItem="dBH-Am-uYt" secondAttribute="top" id="NK4-HI-exC"/>
+                                    <constraint firstItem="i0e-vV-en0" firstAttribute="trailing" secondItem="dBH-Am-uYt" secondAttribute="trailing" id="hye-Ml-kdv"/>
+                                    <constraint firstItem="i0e-vV-en0" firstAttribute="leading" secondItem="dBH-Am-uYt" secondAttribute="leading" id="wdJ-b3-OVV"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ALW-xk-DAo"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Later" id="bZD-yb-Esf">
+                        <imageReference key="image" image="arrow.forward" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PRI-UE-8lQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2135" y="-279"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="f65-ge-pJN">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Alp-Fr-bbI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="z1Z-1i-9om">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="zSz-ZF-ZLw"/>
+                        <segue destination="wbY-Zv-8Os" kind="relationship" relationship="viewControllers" id="mYh-bC-JCD"/>
+                        <segue destination="Jwz-HP-J7X" kind="relationship" relationship="viewControllers" id="tNv-gS-GhY"/>
+                        <segue destination="hit-k5-kxa" kind="relationship" relationship="viewControllers" id="EYc-dV-k0G"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aCw-ZC-Sud" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="137.68115942028987" y="93.75"/>
+        </scene>
+        <!--Done-->
+        <scene sceneID="pKx-5R-btt">
+            <objects>
+                <viewController id="hit-k5-kxa" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lz3-2g-lrP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Mrh-le-1mJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Done" image="checkmark" catalog="system" id="Uno-Qi-Gs5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tVF-Yh-rDo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1048" y="694"/>
+        </scene>
+        <!--Never-->
+        <scene sceneID="0hs-oj-02f">
+            <objects>
+                <viewController id="Jwz-HP-J7X" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bsH-2t-xmA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="1Gy-02-jOI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Never" image="xmark" catalog="system" id="SXn-Tb-qa8"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73n-a9-pbX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2135" y="443"/>
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.forward" catalog="system" width="128" height="98"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="list.triangle" catalog="system" width="128" height="91"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

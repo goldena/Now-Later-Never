@@ -22,7 +22,7 @@ enum StorageErrors: Error {
 
 class PersistentStorage {
     // Temporary stub
-    static private var toDoRecords =
+    static private var nowList =
         [ToDoRecord(title: "test1", category: .Personal, date: Date(), isDone: false),
          ToDoRecord(title: "test2", category: .Personal, date: Date(), isDone: false),
          ToDoRecord(title: "test3", category: .Personal, date: Date(), isDone: false),
@@ -35,27 +35,72 @@ class PersistentStorage {
          ToDoRecord(title: "test10", category: .Personal, date: Date(), isDone: false),
         ]
     
-    static func createToDoRecord(_ record: ToDoRecord) -> Result<Bool, StorageErrors> {
-        toDoRecords.append(record)
+    static private var tomorrowList: [ToDoRecord]   = []
+    static private var neverList: [ToDoRecord]      = []
+    static private var doneList: [ToDoRecord]       = []
+
+    static func createToDoRecord(_ record: ToDoRecord,
+                                 on list: List) -> Result<Bool, StorageErrors> {
+        switch list {
+        case .Now:
+            nowList.append(record)
+        case .Tomorrow:
+            tomorrowList.append(record)
+        case .Never:
+            neverList.append(record)
+        case .Done:
+            doneList.append(record)
+        }
+        
         return .success(true)
     }
     
-    static func readToDoRecords() -> Result<[ToDoRecord], StorageErrors> {
-        return .success(toDoRecords)
+    static func readToDoRecords(from list: List) -> Result<[ToDoRecord], StorageErrors> {
+        switch list {
+        case .Now:
+            return .success(nowList)
+        case .Tomorrow:
+            return .success(tomorrowList)
+        case .Never:
+            return .success(neverList)
+        case .Done:
+            return .success(doneList)
+        }
     }
 
-    static func updateToDoRecord(at index: Int, with record: ToDoRecord) -> Result<Bool, StorageErrors> {
-        if index >= 0 && index < toDoRecords.count {
-            toDoRecords[index] = record
+    static func updateToDoRecord(at index: Int,
+                                 with record: ToDoRecord,
+                                 on list: List) -> Result<Bool, StorageErrors> {
+        if index >= 0 && index < nowList.count {
+            switch list {
+            case .Now:
+                nowList[index] = record
+            case .Tomorrow:
+                tomorrowList[index] = record
+            case .Never:
+                neverList[index] = record
+            case .Done:
+                doneList[index] = record
+            }
             return .success(true)
         } else {
             return .failure(.UnableToUpdateRecordError)
         }
     }
     
-    static func deleteToDoRecord(at index: Int) -> Result<ToDoRecord, StorageErrors> {
-        if index >= 0 && index < toDoRecords.count {
-            return .success(toDoRecords.remove(at: index))
+    static func deleteToDoRecord(at index: Int,
+                                 on list: List) -> Result<ToDoRecord, StorageErrors> {
+        if index >= 0 && index < nowList.count {
+            switch list {
+            case .Now:
+                return .success(nowList.remove(at: index))
+            case .Tomorrow:
+                return .success(tomorrowList.remove(at: index))
+            case .Never:
+                return .success(neverList.remove(at: index))
+            case .Done:
+                return .success(doneList.remove(at: index))
+            }
         } else {
             return .failure(.UnableToDeleteRecordError)
         }
