@@ -79,7 +79,7 @@ class PersistentStorage {
                                  on list: ListType) -> Result<ToDoRecord, StorageErrors> {
         
         switch list {
-        case .Now:
+        case .Today:
             nowList.append(record)
         case .Later:
             laterList.append(record)
@@ -95,7 +95,7 @@ class PersistentStorage {
     static func readToDoRecords(from list: ListType) -> Result<[ToDoRecord], StorageErrors> {
         
         switch list {
-        case .Now:
+        case .Today:
             return .success(nowList)
         case .Later:
             return .success(laterList)
@@ -115,7 +115,7 @@ class PersistentStorage {
         }
         
         switch list {
-        case .Now:
+        case .Today:
             nowList[index] = record
         case .Later:
             laterList[index] = record
@@ -129,14 +129,14 @@ class PersistentStorage {
     }
     
     static func deleteToDoRecord(at index: Int,
-                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
+                                 from list: ListType) -> Result<ToDoRecord, StorageErrors> {
 
         guard checkBounds(of: list, for: index) else {
             return .failure(.UnableToDeleteRecordError)
         }
         
         switch list {
-        case .Now:
+        case .Today:
             return .success(nowList.remove(at: index))
         case .Later:
             return .success(laterList.remove(at: index))
@@ -154,7 +154,7 @@ class PersistentStorage {
         }
         
         switch list {
-        case .Now:
+        case .Today:
             return index < nowList.count
         case .Later:
             return index < laterList.count

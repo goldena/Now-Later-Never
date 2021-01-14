@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NowListViewController: ToDoListViewController {
+class TodayListViewController: ToDoListViewController {
     
     // MARK: - Properties
     @IBOutlet private weak var ToDosTableView: UITableView!
@@ -18,21 +18,13 @@ class NowListViewController: ToDoListViewController {
         ToDosTableView.dataSource   = self
         ToDosTableView.delegate     = self
 
-        list = .Now
+        list = .Today
         toDoRecords = readToDoRecords()
     }
-
-//    override func viewDidAppear(_ animated: Bool) {
-//        updateUI()
-//    }
-//    
-//    private func updateUI() {
-//        ToDosTableView.reloadData()
-//    }
 }
     
 // MARK: - Extensions
-extension NowListViewController: UITableViewDataSource {
+extension TodayListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -52,7 +44,7 @@ extension NowListViewController: UITableViewDataSource {
     }
 }
 
-extension NowListViewController: UITableViewDelegate {
+extension TodayListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

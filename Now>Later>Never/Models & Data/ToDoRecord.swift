@@ -14,7 +14,7 @@ enum Category {
 }
 
 enum ListType {
-    case Now
+    case Today
     case Later
     case Never
     case Done

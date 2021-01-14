@@ -9,13 +9,21 @@ import UIKit
 
 class ToDoListViewController: UIViewController {
 
-    // MARK: - Properties    
+    // MARK: - Properties
+    private weak var ToDosTableView: UITableView!
     let toDoCellID = "ToDoReusableCellID"
 
     var toDoRecords: [ToDoRecord] = []
     var list: ListType!
     
-    // MARK: - Methods
+    // MARK: - Methods - UI
+    func updateUI() {
+        
+        toDoRecords = readToDoRecords()
+        ToDosTableView.reloadData()
+    }
+    
+    // MARK: - Methods - Interface with Storage
     func createToDoRecord(_ record: ToDoRecord) {
         
         switch PersistentStorage.createToDoRecord(record, on: list) {
@@ -50,10 +58,12 @@ class ToDoListViewController: UIViewController {
     
     func deleteToDoRecord(at index: Int) -> ToDoRecord? {
         
-        switch PersistentStorage.deleteToDoRecord(at: index, on: list) {
+        switch PersistentStorage.deleteToDoRecord(at: index, from: list) {
+        
         case .success(let record):
             toDoRecords.remove(at: index)
             return record
+            
         case .failure(let storageError):
             print("\(storageError)")
             return nil

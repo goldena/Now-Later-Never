@@ -66,7 +66,7 @@ extension LaterListViewController: UITableViewDelegate {
                                                     view,
                                                     completionHandler) in
                                             self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Now)
+                                                                to: .Today)
                                             tableView.deleteRows(at: [indexPath],
                                                                  with: .fade)
                                             completionHandler(true)
