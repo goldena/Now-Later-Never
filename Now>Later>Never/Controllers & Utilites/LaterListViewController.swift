@@ -7,98 +7,88 @@
 
 import UIKit
 
-class LaterListViewController: ToDoListViewController {
+class LaterListViewController: ListViewController {
     
     // MARK: - Properties
-    @IBOutlet private weak var ToDosTableView: UITableView!
+    @IBOutlet private weak var TaskTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ToDosTableView.dataSource   = self
-        ToDosTableView.delegate     = self
+        TaskTableView.dataSource   = self
+        TaskTableView.delegate     = self
 
-        list = .Later
-        toDoRecords = readToDoRecords()
+        persistentStorage.laterListDelegate = self
+        
+        listType = .Later
+        tasks = readTasks(from: listType)
     }
 
-//    override func viewDidAppear(_ animated: Bool) {
-//        updateUI()
-//    }
-//
-//    private func updateUI() {
-//        ToDosTableView.reloadData()
+//    func updateUI() {
+//        toDoRecords = readToDoRecords(from: list)
+//        TaskTableView.reloadData()
 //    }
 }
     
 // MARK: - Extensions
+extension LaterListViewController: PersistentStorageLaterListDelegate {
+    
+    func didUpdateList() {
+        
+        tasks = readTasks(from: listType)
+        TaskTableView.reloadData()
+    }
+}
+
 extension LaterListViewController: UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return toDoRecords.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return tasks.count
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let toDoCell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
-                                                                for: indexPath) as? ToDoTableViewCell else {
+        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        toDoCell.ToDoLabel.text = toDoRecords[indexPath.row].title
-        return toDoCell
+        cell.TaskLabel.text = tasks[indexPath.row].title
+        return cell
     }
 }
 
 extension LaterListViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let title = NSLocalizedString("Now",
-                                      comment: "Move to Now Tab")
+        let title = NSLocalizedString("Today", comment: "Move to Today Tab")
 
-        let action = UIContextualAction(style: .normal,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Today)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
+        let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+                                            
+            self.moveTask(at: indexPath.row, to: .Today)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
                                         })
 
-        // Design:
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemGreen
 
-        // configuration.performsFirstActionWithFullSwipe = true
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let title = NSLocalizedString("Never",
-                                      comment: "Move to Never Tab")
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
 
-        let action = UIContextualAction(style: .destructive,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Never)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
-                                        })
+        let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+                                            
+            self.moveTask(at: indexPath.row, to: .Never)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
 
-        // Design:
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemRed
 
@@ -106,7 +96,8 @@ extension LaterListViewController: UITableViewDelegate {
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//
+//    }
 }

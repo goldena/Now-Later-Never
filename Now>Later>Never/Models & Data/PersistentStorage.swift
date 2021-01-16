@@ -8,158 +8,227 @@
 import Foundation
 import CloudKit
 
+
+// MARK: - Persistent Storage - Singleton
+
+var persistentStorage = PersistentStorage()
+
+
+// MARK: - Enums - Errors
+
 enum NetworkErrors: Error {
+    
     case NoConnectionError
     case AuthentificationError
 }
 
 enum StorageErrors: Error {
+    
     case UnableToDeleteRecordError
     case UnableToCreateRecordError
     case UnableToUpdateRecordError
     case UnableToRetreveRecordsError
 }
 
-class PersistentStorage {
-    // Temporary stub
-    static private var nowList =
-        [ToDoRecord(title: "test1", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test2", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test3", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test4", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test5", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test6", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test7", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test8", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test9", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test10", category: .Personal, date: Date(), isDone: false),
+
+// MARK: - Protocols - Delegation
+
+protocol PersistentStorageTodayListDelegate {
+    
+    func didUpdateList()
+}
+
+protocol PersistentStorageLaterListDelegate {
+    
+    func didUpdateList()
+}
+
+protocol PersistentStorageDoneListDelegate {
+    
+    func didUpdateList()
+}
+
+protocol PersistentStorageNeverListDelegate {
+    
+    func didUpdateList()
+}
+
+
+final class PersistentStorage {
+    
+    // MARK: - Properties - Delegates
+    var todayListDelegate:  PersistentStorageTodayListDelegate?
+    var laterListDelegate:  PersistentStorageLaterListDelegate?
+    var doneListDelegate:   PersistentStorageDoneListDelegate?
+    var neverListDelegate:  PersistentStorageNeverListDelegate?
+    
+    
+    // MARK: - Properties - Temporary data stub
+    private var todayList =
+        [Task(title: "test1", category: .Personal, date: Date()),
+         Task(title: "test2", category: .Personal, date: Date()),
+         Task(title: "test3", category: .Personal, date: Date()),
+         Task(title: "test4", category: .Personal, date: Date()),
+         Task(title: "test5", category: .Personal, date: Date()),
+         Task(title: "test6", category: .Personal, date: Date()),
+         Task(title: "test7", category: .Personal, date: Date()),
+         Task(title: "test8", category: .Personal, date: Date()),
+         Task(title: "test9", category: .Personal, date: Date()),
+         Task(title: "test10", category: .Personal, date: Date()),
         ]
     
-    static private var laterList =
-        [ToDoRecord(title: "test11", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test12", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test13", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test14", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test15", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test16", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test17", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test18", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test19", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test20", category: .Personal, date: Date(), isDone: false),
+    private var laterList =
+        [Task(title: "test11", category: .Personal, date: Date()),
+         Task(title: "test12", category: .Personal, date: Date()),
+         Task(title: "test13", category: .Personal, date: Date()),
+         Task(title: "test14", category: .Personal, date: Date()),
+         Task(title: "test15", category: .Personal, date: Date()),
+         Task(title: "test16", category: .Personal, date: Date()),
+         Task(title: "test17", category: .Personal, date: Date()),
+         Task(title: "test18", category: .Personal, date: Date()),
+         Task(title: "test19", category: .Personal, date: Date()),
+         Task(title: "test20", category: .Personal, date: Date()),
         ]
 
-    static private var neverList: [ToDoRecord] =
-        [ToDoRecord(title: "test21", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test22", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test23", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test24", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test25", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test26", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test27", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test28", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test29", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test30", category: .Personal, date: Date(), isDone: false),
+    private var doneList =
+        [Task(title: "test21", category: .Personal, date: Date()),
+         Task(title: "test22", category: .Personal, date: Date()),
+         Task(title: "test23", category: .Personal, date: Date()),
+         Task(title: "test24", category: .Personal, date: Date()),
+         Task(title: "test25", category: .Personal, date: Date()),
+         Task(title: "test26", category: .Personal, date: Date()),
+         Task(title: "test27", category: .Personal, date: Date()),
+         Task(title: "test28", category: .Personal, date: Date()),
+         Task(title: "test29", category: .Personal, date: Date()),
+         Task(title: "test30", category: .Personal, date: Date()),
         ]
 
-    static private var doneList: [ToDoRecord] =
-        [ToDoRecord(title: "test31", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test32", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test33", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test34", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test35", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test36", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test37", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test38", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test39", category: .Personal, date: Date(), isDone: false),
-         ToDoRecord(title: "test40", category: .Personal, date: Date(), isDone: false),
+    private var neverList =
+        [Task(title: "test31", category: .Personal, date: Date()),
+         Task(title: "test32", category: .Personal, date: Date()),
+         Task(title: "test33", category: .Personal, date: Date()),
+         Task(title: "test34", category: .Personal, date: Date()),
+         Task(title: "test35", category: .Personal, date: Date()),
+         Task(title: "test36", category: .Personal, date: Date()),
+         Task(title: "test37", category: .Personal, date: Date()),
+         Task(title: "test38", category: .Personal, date: Date()),
+         Task(title: "test39", category: .Personal, date: Date()),
+         Task(title: "test40", category: .Personal, date: Date()),
         ]
 
+    
     // MARK: - Methods
-    static func createToDoRecord(_ record: ToDoRecord,
-                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
+    func createTask(_ task: Task, on listType: ListType) -> Result<Task, StorageErrors> {
         
-        switch list {
+        switch listType {
         case .Today:
-            nowList.append(record)
+            todayList.append(task)
+            todayListDelegate?.didUpdateList()
+            
         case .Later:
-            laterList.append(record)
+            laterList.append(task)
+            laterListDelegate?.didUpdateList()
+            
         case .Never:
-            neverList.append(record)
+            neverList.append(task)
+            neverListDelegate?.didUpdateList()
+            
         case .Done:
-            doneList.append(record)
+            doneList.append(task)
+            neverListDelegate?.didUpdateList()
         }
         
-        return .success(record)
+        return .success(task)
     }
     
-    static func readToDoRecords(from list: ListType) -> Result<[ToDoRecord], StorageErrors> {
+    func readTasks(from list: ListType) -> Result<[Task], StorageErrors> {
         
         switch list {
         case .Today:
-            return .success(nowList)
+            return .success(todayList)
+            
         case .Later:
             return .success(laterList)
+            
         case .Never:
             return .success(neverList)
+            
         case .Done:
             return .success(doneList)
         }
     }
 
-    static func updateToDoRecord(at index: Int,
-                                 with record: ToDoRecord,
-                                 on list: ListType) -> Result<ToDoRecord, StorageErrors> {
+    func updateTask(at index: Int, with task: Task, on listType: ListType) -> Result<Task, StorageErrors> {
         
-        guard checkBounds(of: list, for: index) else {
+        guard checkBounds(of: listType, for: index) else {
             return .failure(.UnableToUpdateRecordError)
         }
         
-        switch list {
+        switch listType {
         case .Today:
-            nowList[index] = record
+            todayList[index] = task
+            // todayListDelegate?.didUpdateList()
+            
         case .Later:
-            laterList[index] = record
+            laterList[index] = task
+            // laterListDelegate?.didUpdateList()
+            
         case .Never:
-            neverList[index] = record
+            neverList[index] = task
+            // neverListDelegate?.didUpdateList()
+            
         case .Done:
-            doneList[index] = record
+            doneList[index] = task
+            // doneListDelegate?.didUpdateList()
         }
         
-        return .success(record)
+        return .success(task)
     }
     
-    static func deleteToDoRecord(at index: Int,
-                                 from list: ListType) -> Result<ToDoRecord, StorageErrors> {
+    func deleteTask(at index: Int, from listType: ListType) -> Result<Task, StorageErrors> {
 
-        guard checkBounds(of: list, for: index) else {
+        guard checkBounds(of: listType, for: index) else {
             return .failure(.UnableToDeleteRecordError)
         }
         
-        switch list {
+        switch listType {
         case .Today:
-            return .success(nowList.remove(at: index))
+            // todayListDelegate?.didUpdateList()
+            return .success(todayList.remove(at: index))
+            
         case .Later:
+            // laterListDelegate?.didUpdateList()
             return .success(laterList.remove(at: index))
+            
         case .Never:
+            // neverListDelegate?.didUpdateList()
             return .success(neverList.remove(at: index))
+            
         case .Done:
+            // doneListDelegate?.didUpdateList()
             return .success(doneList.remove(at: index))
         }
     }
-        
-    private static func checkBounds(of list: ListType, for index: Int) -> Bool {
+     
+    
+    // MARK: - Private Methods
+    
+    private func checkBounds(of listType: ListType, for index: Int) -> Bool {
 
         guard index >= 0 else {
             return false
         }
         
-        switch list {
+        switch listType {
         case .Today:
-            return index < nowList.count
+            return index < todayList.count
+            
         case .Later:
             return index < laterList.count
+            
         case .Never:
             return index < neverList.count
+            
         case .Done:
             return index < doneList.count
         }

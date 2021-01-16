@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF3AD86D25B38888001E2743 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3AD86C25B38888001E2743 /* Constants.swift */; };
 		CF3E0C0225A1F03000D51A96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C0125A1F03000D51A96 /* AppDelegate.swift */; };
 		CF3E0C0425A1F03000D51A96 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C0325A1F03000D51A96 /* SceneDelegate.swift */; };
 		CF3E0C0925A1F03000D51A96 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3E0C0725A1F03000D51A96 /* Main.storyboard */; };
@@ -15,13 +16,13 @@
 		CF3E0C1125A1F03300D51A96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3E0C0F25A1F03300D51A96 /* LaunchScreen.storyboard */; };
 		CF3E0C1C25A1F03300D51A96 /* Now_Later_NeverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C1B25A1F03300D51A96 /* Now_Later_NeverTests.swift */; };
 		CF3E0C2725A1F03300D51A96 /* Now_Later_NeverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C2625A1F03300D51A96 /* Now_Later_NeverUITests.swift */; };
-		CF3E0C3E25A1F25E00D51A96 /* ToDoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C3D25A1F25E00D51A96 /* ToDoRecord.swift */; };
+		CF3E0C3E25A1F25E00D51A96 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C3D25A1F25E00D51A96 /* Task.swift */; };
 		CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E0C4225A1F2FE00D51A96 /* PersistentStorage.swift */; };
 		CF46963225B0DEFE00172538 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF46963125B0DEFE00172538 /* TabBarController.swift */; };
-		CF8D7B6325A1F94F00973328 /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */; };
+		CF8D7B6325A1F94F00973328 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */; };
 		CF8D7B6B25A2880300973328 /* TodayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6A25A2880300973328 /* TodayListViewController.swift */; };
 		CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */; };
-		CF8D7B7E25A9D71900973328 /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */; };
+		CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7D25A9D71900973328 /* ListViewController.swift */; };
 		CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B8E25AA503700973328 /* DoneListViewController.swift */; };
 		CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B9325AA505000973328 /* NeverListViewController.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF3AD86C25B38888001E2743 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CF3E0BFE25A1F03000D51A96 /* Now>Later>Never.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Now>Later>Never.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF3E0C0125A1F03000D51A96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF3E0C0325A1F03000D51A96 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,13 +60,13 @@
 		CF3E0C2225A1F03300D51A96 /* Now>Later>NeverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Now>Later>NeverUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF3E0C2625A1F03300D51A96 /* Now_Later_NeverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_Later_NeverUITests.swift; sourceTree = "<group>"; };
 		CF3E0C2825A1F03300D51A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF3E0C3D25A1F25E00D51A96 /* ToDoRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRecord.swift; sourceTree = "<group>"; };
+		CF3E0C3D25A1F25E00D51A96 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		CF3E0C4225A1F2FE00D51A96 /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
 		CF46963125B0DEFE00172538 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
+		CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		CF8D7B6A25A2880300973328 /* TodayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterListViewController.swift; sourceTree = "<group>"; };
-		CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
+		CF8D7B7D25A9D71900973328 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B8E25AA503700973328 /* DoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B9325AA505000973328 /* NeverListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,8 +152,9 @@
 		CF3E0C3A25A1F0C000D51A96 /* Models & Data */ = {
 			isa = PBXGroup;
 			children = (
-				CF3E0C3D25A1F25E00D51A96 /* ToDoRecord.swift */,
+				CF3E0C3D25A1F25E00D51A96 /* Task.swift */,
 				CF3E0C4225A1F2FE00D51A96 /* PersistentStorage.swift */,
+				CF3AD86C25B38888001E2743 /* Constants.swift */,
 			);
 			path = "Models & Data";
 			sourceTree = "<group>";
@@ -169,8 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				CF46963125B0DEFE00172538 /* TabBarController.swift */,
-				CF8D7B7D25A9D71900973328 /* ToDoListViewController.swift */,
-				CF8D7B6225A1F94F00973328 /* ToDoTableViewCell.swift */,
+				CF8D7B7D25A9D71900973328 /* ListViewController.swift */,
+				CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */,
 				CF8D7B6A25A2880300973328 /* TodayListViewController.swift */,
 				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
 				CF8D7B8E25AA503700973328 /* DoneListViewController.swift */,
@@ -309,18 +312,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF8D7B6325A1F94F00973328 /* ToDoTableViewCell.swift in Sources */,
+				CF8D7B6325A1F94F00973328 /* TaskTableViewCell.swift in Sources */,
 				CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */,
 				CF3E0C0225A1F03000D51A96 /* AppDelegate.swift in Sources */,
 				CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */,
 				CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */,
 				CF8D7B6B25A2880300973328 /* TodayListViewController.swift in Sources */,
 				CF46963225B0DEFE00172538 /* TabBarController.swift in Sources */,
+				CF3AD86D25B38888001E2743 /* Constants.swift in Sources */,
 				CF3E0C0C25A1F03000D51A96 /* Now_Later_Never.xcdatamodeld in Sources */,
 				CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */,
 				CF3E0C0425A1F03000D51A96 /* SceneDelegate.swift in Sources */,
-				CF8D7B7E25A9D71900973328 /* ToDoListViewController.swift in Sources */,
-				CF3E0C3E25A1F25E00D51A96 /* ToDoRecord.swift in Sources */,
+				CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */,
+				CF3E0C3E25A1F25E00D51A96 /* Task.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

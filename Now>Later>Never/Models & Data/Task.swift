@@ -13,16 +13,15 @@ enum Category {
     case Education
 }
 
-enum ListType {
+enum ListType: String {
     case Today
     case Later
     case Never
     case Done
 }
 
-struct ToDoRecord {
+struct Task {
     var title: String
     var category: Category
     var date: Date
-    var isDone: Bool
 }

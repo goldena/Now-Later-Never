@@ -7,97 +7,88 @@
 
 import UIKit
 
-class DoneListViewController: ToDoListViewController {
+class DoneListViewController: ListViewController {
     
     // MARK: - Properties
-    @IBOutlet private weak var ToDosTableView: UITableView!
+    @IBOutlet private weak var TaskTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ToDosTableView.dataSource   = self
-        ToDosTableView.delegate     = self
+        TaskTableView.dataSource   = self
+        TaskTableView.delegate     = self
 
-        list = .Done
-        toDoRecords = readToDoRecords()
+        persistentStorage.doneListDelegate = self
+        
+        listType = .Done
+        tasks = readTasks(from: listType)
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        updateUI()
-//    }
-//
-//    private func updateUI() {
-//        ToDosTableView.reloadData()
+
+//    func updateUI() {
+//        toDoRecords = readToDoRecords(from: list)
+//        TaskTableView.reloadData()
 //    }
 }
     
 // MARK: - Extensions
+extension DoneListViewController: PersistentStorageDoneListDelegate {
+    
+    func didUpdateList() {
+        
+        tasks = readTasks(from: listType)
+        TaskTableView.reloadData()
+    }
+}
+
 extension DoneListViewController: UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return toDoRecords.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return tasks.count
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
-                                                                for: indexPath) as? ToDoTableViewCell else {
+        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        cell.ToDoLabel.text = toDoRecords[indexPath.row].title
+        cell.TaskLabel.text = tasks[indexPath.row].title
         return cell
     }
 }
 
 extension DoneListViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let title = NSLocalizedString("Restore",
-                                      comment: "Move to Now Tab")
+        let title = NSLocalizedString("Restore", comment: "Move to Now Tab")
 
-        let action = UIContextualAction(style: .normal,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Today)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
-                                        })
-
-        // Design:
+        let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+            
+            self.moveTask(at: indexPath.row, to: .Today)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
+        
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemGreen
 
-        // configuration.performsFirstActionWithFullSwipe = true
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let title = NSLocalizedString("Delete",
-                                      comment: "Delete permanently")
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let title = NSLocalizedString("Delete", comment: "Delete permanently")
 
-        let action = UIContextualAction(style: .destructive,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.deleteToDoRecord(at: indexPath.row)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
-                                        })
-
-        // Design:
+        let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+            
+            self.deleteTask(at: indexPath.row, from: self.listType)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
+        
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemRed
 
@@ -105,7 +96,8 @@ extension DoneListViewController: UITableViewDelegate {
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//    
+//    
+//    }
 }

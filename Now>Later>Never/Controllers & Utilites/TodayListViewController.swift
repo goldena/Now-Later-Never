@@ -7,90 +7,91 @@
 
 import UIKit
 
-class TodayListViewController: ToDoListViewController {
+
+class TodayListViewController: ListViewController {
     
     // MARK: - Properties
-    @IBOutlet private weak var ToDosTableView: UITableView!
+    @IBOutlet private weak var TaskTableView: UITableView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ToDosTableView.dataSource   = self
-        ToDosTableView.delegate     = self
+        TaskTableView.dataSource   = self
+        TaskTableView.delegate     = self
+        
+        persistentStorage.todayListDelegate = self
+        
+        listType = .Today
+        tasks = readTasks(from: listType)
+    }
+ 
+//    func updateUI() {
+//        tasks = readTasks(from: listType)
+//        TaskTableView.reloadData()
+//    }
+}
 
-        list = .Today
-        toDoRecords = readToDoRecords()
+// MARK: - Extensions
+extension TodayListViewController: PersistentStorageTodayListDelegate {
+    
+    func didUpdateList() {
+        
+        tasks = readTasks(from: listType)
+        TaskTableView.reloadData()
     }
 }
-    
-// MARK: - Extensions
+
 extension TodayListViewController: UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return toDoRecords.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return tasks.count
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = ToDosTableView.dequeueReusableCell(withIdentifier: toDoCellID,
-                                                                for: indexPath) as? ToDoTableViewCell else {
+        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell
+        else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        cell.ToDoLabel.text = toDoRecords[indexPath.row].title
+        cell.TaskLabel.text = tasks[indexPath.row].title
         return cell
     }
 }
 
 extension TodayListViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let title = NSLocalizedString("Later",
-                                      comment: "Move to Later Tab")
+        let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
 
-        let action = UIContextualAction(style: .normal,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Later)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
-                                        })
+        let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+            
+            self.moveTask(at: indexPath.row, to: .Later)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
 
-        // Design:
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemGreen
 
-        // configuration.performsFirstActionWithFullSwipe = true
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let title = NSLocalizedString("Never",
-                                      comment: "Move to Never Tab")
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
 
-        let action = UIContextualAction(style: .destructive,
-                                        title: title,
-                                        handler: { (action,
-                                                    view,
-                                                    completionHandler) in
-                                            self.moveToDoRecord(at: indexPath.row,
-                                                                to: .Never)
-                                            tableView.deleteRows(at: [indexPath],
-                                                                 with: .fade)
-                                            completionHandler(true)
-                                        })
-
-        // Design:
+        let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view,completionHandler) in
+            
+            self.moveTask(at: indexPath.row, to: .Never)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
+        
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemRed
 
@@ -98,7 +99,8 @@ extension TodayListViewController: UITableViewDelegate {
         return configuration
     }
 
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        
+//        
+//    }
 }
