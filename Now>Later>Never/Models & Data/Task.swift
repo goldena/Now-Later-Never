@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Category {
+enum Category: String {
     case Personal
     case Work
     case Education

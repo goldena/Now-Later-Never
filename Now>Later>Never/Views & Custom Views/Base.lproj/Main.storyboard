@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Alp-Fr-bbI">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -277,6 +277,121 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uus-vR-0oM">
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="Kpi-Ty-1k6" userLabel="Add Task Stack View">
+                                        <rect key="frame" x="8" y="367" width="398" height="394"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1OH-RT-cuy" userLabel="Category Stack View">
+                                                <rect key="frame" x="78" y="0.0" width="242" height="59.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZV-t9-Ggi">
+                                                        <rect key="frame" x="86" y="0.0" width="70" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dxE-QT-rcA">
+                                                        <rect key="frame" x="0.0" y="28.5" width="242" height="32"/>
+                                                        <segments>
+                                                            <segment title="Work"/>
+                                                            <segment title="Personal"/>
+                                                            <segment title="Education"/>
+                                                        </segments>
+                                                    </segmentedControl>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="m3y-qJ-D9i" userLabel="When Stack View">
+                                                <rect key="frame" x="114" y="91.5" width="170" height="59.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0X-mj-jeS">
+                                                        <rect key="frame" x="63" y="0.0" width="44.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ofw-mV-hJw">
+                                                        <rect key="frame" x="0.0" y="28.5" width="170" height="32"/>
+                                                        <segments>
+                                                            <segment title="Today"/>
+                                                            <segment title="Later"/>
+                                                            <segment title="Done"/>
+                                                        </segments>
+                                                    </segmentedControl>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BPf-wz-DzP" userLabel="Title Stack View">
+                                                <rect key="frame" x="0.0" y="183" width="398" height="62.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQi-se-Btj">
+                                                        <rect key="frame" x="182.5" y="0.0" width="33" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zdV-jc-Dgx">
+                                                        <rect key="frame" x="0.0" y="28.5" width="398" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" spellCheckingType="yes" enablesReturnKeyAutomatically="YES"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="zdV-jc-Dgx" firstAttribute="leading" secondItem="BPf-wz-DzP" secondAttribute="leadingMargin" id="WHU-cE-8y9"/>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="zdV-jc-Dgx" secondAttribute="trailing" id="hwq-A5-zll"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PeH-Us-XX4" userLabel="Description Stack View">
+                                                <rect key="frame" x="0.0" y="277.5" width="398" height="62.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Optional Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzq-U9-QB9">
+                                                        <rect key="frame" x="121" y="0.0" width="156" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter an optional description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ADP-b1-ePO">
+                                                        <rect key="frame" x="0.0" y="28.5" width="398" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" spellCheckingType="yes" enablesReturnKeyAutomatically="YES"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="ADP-b1-ePO" secondAttribute="trailing" id="EhP-bX-am1"/>
+                                                    <constraint firstItem="ADP-b1-ePO" firstAttribute="leading" secondItem="PeH-Us-XX4" secondAttribute="leadingMargin" id="XvZ-tF-czM"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="168" translatesAutoresizingMaskIntoConstraints="NO" id="k5M-MI-br2" userLabel="Buttons Stack View">
+                                                <rect key="frame" x="30.5" y="372" width="337" height="22"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ihX-UK-zC7">
+                                                        <rect key="frame" x="0.0" y="0.0" width="93.5" height="22"/>
+                                                        <state key="normal" title="Add Task" image="plus.square" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="AddTaskButtonPressed:" destination="0SY-PQ-xhg" eventType="touchUpInside" id="IXp-ba-ll6"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="585-Zx-HXg">
+                                                        <rect key="frame" x="261.5" y="0.0" width="75.5" height="22"/>
+                                                        <state key="normal" title="Cancel" image="xmark.square" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="CancelButtonPressed:" destination="0SY-PQ-xhg" eventType="touchUpInside" id="i2y-kq-vQR"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailingMargin" secondItem="PeH-Us-XX4" secondAttribute="trailing" id="7Ra-TW-VFf"/>
+                                            <constraint firstItem="PeH-Us-XX4" firstAttribute="leading" secondItem="Kpi-Ty-1k6" secondAttribute="leadingMargin" id="Org-jL-WdS"/>
+                                            <constraint firstItem="BPf-wz-DzP" firstAttribute="leading" secondItem="Kpi-Ty-1k6" secondAttribute="leadingMargin" id="ifn-gX-LoW"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="BPf-wz-DzP" secondAttribute="trailing" id="vVt-ew-c72"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Kpi-Ty-1k6" secondAttribute="trailing" id="9rv-1M-ICd"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="Kpi-Ty-1k6" secondAttribute="bottom" id="bBj-lH-gsG"/>
+                                    <constraint firstItem="Kpi-Ty-1k6" firstAttribute="leading" secondItem="Uus-vR-0oM" secondAttribute="leadingMargin" id="rzV-Y1-VC9"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QHW-jC-36L"/>
@@ -293,6 +408,9 @@
                         <imageReference key="selectedImage" image="plus.square.fill" catalog="system" symbolScale="large"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="TaskTitleTextField" destination="zdV-jc-Dgx" id="hHi-5m-iuz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lAq-0I-bMK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -306,6 +424,7 @@
         <image name="plus.square" catalog="system" width="128" height="114"/>
         <image name="plus.square.fill" catalog="system" width="128" height="114"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="xmark.square" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
