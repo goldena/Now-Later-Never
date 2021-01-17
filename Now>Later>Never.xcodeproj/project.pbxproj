@@ -25,6 +25,7 @@
 		CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7D25A9D71900973328 /* ListViewController.swift */; };
 		CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B8E25AA503700973328 /* DoneListViewController.swift */; };
 		CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B9325AA505000973328 /* NeverListViewController.swift */; };
+		CFB9D09025B45A330009FE53 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		CF8D7B7D25A9D71900973328 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B8E25AA503700973328 /* DoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B9325AA505000973328 /* NeverListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverListViewController.swift; sourceTree = "<group>"; };
+		CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
 				CF8D7B8E25AA503700973328 /* DoneListViewController.swift */,
 				CF8D7B9325AA505000973328 /* NeverListViewController.swift */,
+				CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */,
 			);
 			path = "Controllers & Utilites";
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				CF3E0C0425A1F03000D51A96 /* SceneDelegate.swift in Sources */,
 				CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */,
 				CF3E0C3E25A1F25E00D51A96 /* Task.swift in Sources */,
+				CFB9D09025B45A330009FE53 /* AddTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

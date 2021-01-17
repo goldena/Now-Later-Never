@@ -35,7 +35,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBlueColor"/>
                                             <constraints>
                                                 <constraint firstItem="z1c-so-CQT" firstAttribute="leading" secondItem="QAo-XQ-Qim" secondAttribute="leadingMargin" id="8dP-3V-8md"/>
                                                 <constraint firstItem="z1c-so-CQT" firstAttribute="centerY" secondItem="QAo-XQ-Qim" secondAttribute="centerY" id="sOu-Pb-lIH"/>
@@ -98,7 +97,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
                                                     <constraints>
                                                         <constraint firstItem="dhA-Ib-MeW" firstAttribute="centerY" secondItem="oIh-6s-93G" secondAttribute="centerY" id="D4C-d5-DPZ"/>
                                                         <constraint firstItem="dhA-Ib-MeW" firstAttribute="leading" secondItem="oIh-6s-93G" secondAttribute="leadingMargin" id="Q8g-Oj-n3J"/>
@@ -148,6 +146,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" destinationCreationSelector="Today" id="zSz-ZF-ZLw"/>
                         <segue destination="wbY-Zv-8Os" kind="relationship" relationship="viewControllers" destinationCreationSelector="Later" id="mYh-bC-JCD"/>
+                        <segue destination="0SY-PQ-xhg" kind="relationship" relationship="viewControllers" destinationCreationSelector="Add Task" id="QiJ-Gz-6Gc"/>
                         <segue destination="hit-k5-kxa" kind="relationship" relationship="viewControllers" destinationCreationSelector="Done" id="EYc-dV-k0G"/>
                         <segue destination="Jwz-HP-J7X" kind="relationship" relationship="viewControllers" destinationCreationSelector="Never" id="tNv-gS-GhY"/>
                     </connections>
@@ -182,7 +181,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBlueColor"/>
                                             <constraints>
                                                 <constraint firstItem="Bqk-le-xed" firstAttribute="leading" secondItem="0Fb-Uw-VoT" secondAttribute="leadingMargin" id="VEM-hA-N5z"/>
                                                 <constraint firstItem="Bqk-le-xed" firstAttribute="centerY" secondItem="0Fb-Uw-VoT" secondAttribute="centerY" id="yJ7-9K-Tga"/>
@@ -239,7 +237,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBlueColor"/>
                                             <constraints>
                                                 <constraint firstItem="aoM-i5-NKr" firstAttribute="leading" secondItem="6oT-A4-h1N" secondAttribute="leadingMargin" id="aHm-O8-yf4"/>
                                                 <constraint firstItem="aoM-i5-NKr" firstAttribute="centerY" secondItem="6oT-A4-h1N" secondAttribute="centerY" id="aOU-Da-PQm"/>
@@ -270,17 +267,47 @@
             </objects>
             <point key="canvasLocation" x="2134.7826086956525" y="442.63392857142856"/>
         </scene>
+        <!--Add Task-->
+        <scene sceneID="Ori-CT-yxW">
+            <objects>
+                <viewController storyboardIdentifier="Add Task" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0SY-PQ-xhg" customClass="AddTaskViewController" customModule="Now_Later_Never" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lx6-AN-V68" userLabel="Add Task View">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uus-vR-0oM">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QHW-jC-36L"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Uus-vR-0oM" firstAttribute="trailing" secondItem="QHW-jC-36L" secondAttribute="trailing" id="8LM-Jz-17R"/>
+                            <constraint firstItem="Uus-vR-0oM" firstAttribute="bottom" secondItem="QHW-jC-36L" secondAttribute="bottom" id="Irj-6c-auR"/>
+                            <constraint firstItem="Uus-vR-0oM" firstAttribute="leading" secondItem="QHW-jC-36L" secondAttribute="leading" id="Y9b-oL-1FI"/>
+                            <constraint firstItem="Uus-vR-0oM" firstAttribute="top" secondItem="QHW-jC-36L" secondAttribute="top" id="ggH-9Q-uXm"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" tag="1" title="Add Task" id="JoD-Gr-sFO">
+                        <imageReference key="image" image="plus.square" catalog="system" symbolScale="large"/>
+                        <imageReference key="selectedImage" image="plus.square.fill" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lAq-0I-bMK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2943.4782608695655" y="93.75"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arrow.forward" catalog="system" width="128" height="98"/>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="list.triangle" catalog="system" width="128" height="91"/>
+        <image name="plus.square" catalog="system" width="128" height="114"/>
+        <image name="plus.square.fill" catalog="system" width="128" height="114"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
