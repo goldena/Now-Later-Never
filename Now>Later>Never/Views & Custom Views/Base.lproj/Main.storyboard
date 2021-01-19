@@ -409,6 +409,7 @@
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="AddTaskBottomMarginConstraint" destination="bBj-lH-gsG" id="LZq-V5-o9f"/>
                         <outlet property="TaskTitleTextField" destination="zdV-jc-Dgx" id="hHi-5m-iuz"/>
                     </connections>
                 </viewController>
