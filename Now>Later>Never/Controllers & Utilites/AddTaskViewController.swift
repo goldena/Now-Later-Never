@@ -38,26 +38,25 @@ class AddTaskViewController: UIViewController {
     @objc func keyboardWillShow(notification: Notification) {
 
         guard let info = notification.userInfo,
-              let keyboardFrame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+              let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue //?.cgRectValue
         else {
             return
         }
         
+        
+        self.AddTaskBottomMarginConstraint.constant = keyboardFrame.cgRectValue.height
+
         UIView.animate(withDuration: 0.1) {
-            self.AddTaskBottomMarginConstraint.constant = keyboardFrame.size.height
+            self.view.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
 
-        guard let info = notification.userInfo,
-              let keyboardFrame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-        else {
-            return
-        }
+        self.AddTaskBottomMarginConstraint.constant = 0
         
         UIView.animate(withDuration: 0.1) {
-            self.AddTaskBottomMarginConstraint.constant = 0
+            self.view.layoutIfNeeded()
         }
     }
     
