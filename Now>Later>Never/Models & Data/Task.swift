@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum Category: String {
+enum Category: String, AllCasesConvertibleToStrings {
     case Personal
     case Work
     case Education
 }
 
-enum ListType: String {
+enum ListType: String, AllCasesConvertibleToStrings {
     case Today
     case Later
     case Never
@@ -24,4 +24,21 @@ struct Task {
     var title: String
     var category: Category
     var date: Date
+}
+
+protocol AllCasesConvertibleToStrings: CaseIterable, RawRepresentable {
+    static var rawValues: [String] { get }
+}
+    
+extension AllCasesConvertibleToStrings {
+    static var rawValues: [String] {
+    
+        var rawValues: [String] = []
+        
+        for eachCase in self.allCases {
+            rawValues.append(eachCase.rawValue as? String ?? "")
+        }
+        
+        return rawValues
+    }
 }
