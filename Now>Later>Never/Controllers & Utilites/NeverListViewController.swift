@@ -39,17 +39,15 @@ extension NeverListViewController: PersistentStorageNeverListDelegate {
 extension NeverListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return tasks.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
-
         cell.TaskLabel.text = tasks[indexPath.row].title
+        
         return cell
     }
 }

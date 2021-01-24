@@ -101,8 +101,8 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         }
         
         let task = Task(title: taskTitle, category: category, date: Date())
-        #warning("Replace persistentStorage with an Interface")
-        persistentStorage.addTask(task, to: .Today)
+        addTask(task, to: .Done)
+        
         self.dismiss(animated: true, completion: nil)
     }
     

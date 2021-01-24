@@ -9,13 +9,10 @@ import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    var persistentStorage = PersistentStorage()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         delegate = self
-
         // customizeAddTaskTabBarItem()
     }
      
@@ -44,7 +41,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         shouldSelect viewController: UIViewController
     ) -> Bool {
-        
         guard type(of: viewController) == AddTaskViewController.self else {
             return true
         }

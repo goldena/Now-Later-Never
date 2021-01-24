@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class TodayListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
@@ -19,8 +18,8 @@ class TodayListViewController: UIViewController, PersistentStorageCRUD {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TaskTableView.dataSource   = self
-        TaskTableView.delegate     = self
+        TaskTableView.dataSource = self
+        TaskTableView.delegate = self
         persistentStorage.todayListDelegate = self
         
         tasks = readTasks(from: listType)
@@ -54,9 +53,8 @@ extension TodayListViewController: UITableViewDataSource {
 }
 
 extension TodayListViewController: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
 
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in

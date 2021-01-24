@@ -115,7 +115,7 @@ final class PersistentStorage {
             neverListDelegate?.didUpdateList()
         case .Done:
             doneList.append(task)
-            neverListDelegate?.didUpdateList()
+            doneListDelegate?.didUpdateList()
         }
         
         return .success(true)
@@ -135,7 +135,6 @@ final class PersistentStorage {
     }
 
     func updateTask(on list: ListType, at index: Int, with task: Task) -> Result<Task, StorageErrors> {
-        
         guard isInBounds(of: list, for: index) else {
             return .failure(.UnableToUpdateRecordError)
         }
@@ -197,5 +196,4 @@ final class PersistentStorage {
             return index < doneList.count
         }
     }
-    
 }
