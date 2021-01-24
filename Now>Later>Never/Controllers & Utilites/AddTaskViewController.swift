@@ -85,23 +85,34 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     // MARK: - Methods - Actions
     @IBAction private func AddTaskButtonPressed(_ sender: UIButton) {
         
-        let selectedSegmentIndex = CategoryOfTaskSegmentedControl.selectedSegmentIndex
+        let selectedDeadlineIndex = DeadlineSegmentedControl.selectedSegmentIndex
+        let selectedCategoryIndex = CategoryOfTaskSegmentedControl.selectedSegmentIndex
         
+        
+        #warning("Consider refactoring")
         // Segment is selected, its Title exists, its Category is valid
-        guard selectedSegmentIndex != UISegmentedControl.noSegment,
-              let selectedSegmentTitle = CategoryOfTaskSegmentedControl.titleForSegment(at: selectedSegmentIndex),
-              let category = Category.init(rawValue: selectedSegmentTitle) else {
+        guard selectedCategoryIndex != UISegmentedControl.noSegment,
+              let selectedCategoryTitle = CategoryOfTaskSegmentedControl.titleForSegment(at: selectedCategoryIndex),
+              let category = Category.init(rawValue: selectedCategoryTitle) else {
             fatalError("No segment of UISegmentedcontrol was selected || no title exists || invalid category")
         }
         
-        guard let taskTitle = TaskTitleTextField.text, taskTitle != "" else {
+        // Segment is selected, its Title exists, its Category is valid
+        guard selectedDeadlineIndex != UISegmentedControl.noSegment,
+              let selectedDeadlineTitle = DeadlineSegmentedControl.titleForSegment(at: selectedDeadlineIndex),
+              let deadline = ListType.init(rawValue: selectedDeadlineTitle) else {
+            fatalError("No segment of UISegmentedcontrol was selected || no title exists || invalid category")
+        }
+        
+        guard let taskTitle = TaskTitleTextField.text,
+              taskTitle != "" else {
             // Alert if a New Task's Title is empty
             showAlert(title: "No title entered", message: "Please add a title to the Task")
             return
         }
         
-        let task = Task(title: taskTitle, category: category, date: Date())
-        addTask(task, to: .Done)
+        let task = Task(title: taskTitle + category.rawValue, category: category, date: Date())
+        addTask(task, to: deadline)
         
         self.dismiss(animated: true, completion: nil)
     }
