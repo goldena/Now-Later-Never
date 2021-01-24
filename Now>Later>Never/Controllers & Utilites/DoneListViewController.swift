@@ -7,9 +7,12 @@
 
 import UIKit
 
-class DoneListViewController: ListViewController {
-    
+class DoneListViewController: UIViewController, PersistentStorageCRUD {
+
     // MARK: - Properties
+    var listType: ListType = .Done
+    var tasks: [Task] = []
+    
     @IBOutlet private weak var TaskTableView: UITableView!
     
     override func viewDidLoad() {
@@ -17,24 +20,16 @@ class DoneListViewController: ListViewController {
         
         TaskTableView.dataSource   = self
         TaskTableView.delegate     = self
-
         persistentStorage.doneListDelegate = self
         
-        listType = .Done
         tasks = readTasks(from: listType)
     }
-
-//    func updateUI() {
-//        toDoRecords = readToDoRecords(from: list)
-//        TaskTableView.reloadData()
-//    }
 }
     
 // MARK: - Extensions
 extension DoneListViewController: PersistentStorageDoneListDelegate {
     
     func didUpdateList() {
-        
         tasks = readTasks(from: listType)
         TaskTableView.reloadData()
     }
@@ -43,7 +38,6 @@ extension DoneListViewController: PersistentStorageDoneListDelegate {
 extension DoneListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return tasks.count
     }
 
@@ -66,7 +60,8 @@ extension DoneListViewController: UITableViewDelegate {
 
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
             
-            self.moveTask(at: indexPath.row, to: .Today)
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })
@@ -84,7 +79,8 @@ extension DoneListViewController: UITableViewDelegate {
 
         let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
             
-            self.deleteTask(at: indexPath.row, from: self.listType)
+            self.deleteTask(from: self.listType, at: indexPath.row)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })

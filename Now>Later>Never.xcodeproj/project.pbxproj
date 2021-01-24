@@ -22,10 +22,10 @@
 		CF8D7B6325A1F94F00973328 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */; };
 		CF8D7B6B25A2880300973328 /* TodayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B6A25A2880300973328 /* TodayListViewController.swift */; };
 		CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */; };
-		CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7D25A9D71900973328 /* ListViewController.swift */; };
 		CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B8E25AA503700973328 /* DoneListViewController.swift */; };
 		CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B9325AA505000973328 /* NeverListViewController.swift */; };
 		CFB9D09025B45A330009FE53 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */; };
+		CFB9D09E25BD9A790009FE53 /* PersistentStorageCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,10 +67,10 @@
 		CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		CF8D7B6A25A2880300973328 /* TodayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterListViewController.swift; sourceTree = "<group>"; };
-		CF8D7B7D25A9D71900973328 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B8E25AA503700973328 /* DoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B9325AA505000973328 /* NeverListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverListViewController.swift; sourceTree = "<group>"; };
 		CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorageCRUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				CF46963125B0DEFE00172538 /* TabBarController.swift */,
-				CF8D7B7D25A9D71900973328 /* ListViewController.swift */,
+				CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */,
 				CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */,
 				CF8D7B6A25A2880300973328 /* TodayListViewController.swift */,
 				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
@@ -318,6 +318,7 @@
 				CF8D7B6325A1F94F00973328 /* TaskTableViewCell.swift in Sources */,
 				CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */,
 				CF3E0C0225A1F03000D51A96 /* AppDelegate.swift in Sources */,
+				CFB9D09E25BD9A790009FE53 /* PersistentStorageCRUD.swift in Sources */,
 				CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */,
 				CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */,
 				CF8D7B6B25A2880300973328 /* TodayListViewController.swift in Sources */,
@@ -326,7 +327,6 @@
 				CF3E0C0C25A1F03000D51A96 /* Now_Later_Never.xcdatamodeld in Sources */,
 				CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */,
 				CF3E0C0425A1F03000D51A96 /* SceneDelegate.swift in Sources */,
-				CF8D7B7E25A9D71900973328 /* ListViewController.swift in Sources */,
 				CF3E0C3E25A1F25E00D51A96 /* Task.swift in Sources */,
 				CFB9D09025B45A330009FE53 /* AddTaskViewController.swift in Sources */,
 			);

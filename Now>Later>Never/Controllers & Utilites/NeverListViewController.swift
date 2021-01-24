@@ -7,9 +7,12 @@
 
 import UIKit
 
-class NeverListViewController: ListViewController {
+class NeverListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
+    var listType: ListType = .Never
+    var tasks: [Task] = []
+    
     @IBOutlet private weak var TaskTableView: UITableView!
     
     override func viewDidLoad() {
@@ -20,21 +23,14 @@ class NeverListViewController: ListViewController {
 
         persistentStorage.neverListDelegate = self
         
-        listType = .Never
         tasks = readTasks(from: listType)
     }
-    
-//    func updateUI() {
-//        toDoRecords = readToDoRecords(from: list)
-//        TaskTableView.reloadData()
-//    }
 }
 
 // MARK: - Extensions
 extension NeverListViewController: PersistentStorageNeverListDelegate {
     
     func didUpdateList() {
-        
         tasks = readTasks(from: listType)
         TaskTableView.reloadData()
     }
@@ -64,12 +60,15 @@ extension NeverListViewController: UITableViewDelegate {
 
         let title = NSLocalizedString("Now", comment: "Move to Now Tab")
 
-        let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
-            
-            self.moveTask(at: indexPath.row, to: .Today)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        })
+        let action = UIContextualAction(
+            style: .normal,
+            title: title,
+            handler: { (action, view, completionHandler) in
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
 
         //action.image = UIImage(named: "heart")
         action.backgroundColor = .systemGreen
@@ -82,11 +81,14 @@ extension NeverListViewController: UITableViewDelegate {
         
         let title = NSLocalizedString("Delete", comment: "Delete Permanently")
 
-        let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
-            
-            self.deleteTask(at: indexPath.row, from: self.listType)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
+        let action = UIContextualAction(
+            style: .destructive,
+            title: title,
+            handler: { (action, view, completionHandler) in
+                self.deleteTask(from: self.listType, at: indexPath.row)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
         })
 
         //action.image = UIImage(named: "heart")

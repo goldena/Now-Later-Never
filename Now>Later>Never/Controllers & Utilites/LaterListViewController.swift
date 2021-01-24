@@ -7,34 +7,30 @@
 
 import UIKit
 
-class LaterListViewController: ListViewController {
+class LaterListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
+    var listType: ListType = .Later
+    var tasks: [Task] = []
+    
     @IBOutlet private weak var TaskTableView: UITableView!
     
+    // MARK: - View Controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         TaskTableView.dataSource   = self
         TaskTableView.delegate     = self
-
         persistentStorage.laterListDelegate = self
         
-        listType = .Later
         tasks = readTasks(from: listType)
     }
-
-//    func updateUI() {
-//        toDoRecords = readToDoRecords(from: list)
-//        TaskTableView.reloadData()
-//    }
 }
     
 // MARK: - Extensions
 extension LaterListViewController: PersistentStorageLaterListDelegate {
     
     func didUpdateList() {
-        
         tasks = readTasks(from: listType)
         TaskTableView.reloadData()
     }
@@ -43,7 +39,6 @@ extension LaterListViewController: PersistentStorageLaterListDelegate {
 extension LaterListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return tasks.count
     }
 
@@ -66,7 +61,8 @@ extension LaterListViewController: UITableViewDelegate {
 
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
                                             
-            self.moveTask(at: indexPath.row, to: .Today)
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
                                         })
@@ -84,7 +80,8 @@ extension LaterListViewController: UITableViewDelegate {
 
         let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
                                             
-            self.moveTask(at: indexPath.row, to: .Never)
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })

@@ -8,51 +8,43 @@
 import UIKit
 
 
-class TodayListViewController: ListViewController {
+class TodayListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
+    var listType: ListType = .Today
+    var tasks: [Task] = []
+
     @IBOutlet private weak var TaskTableView: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         TaskTableView.dataSource   = self
         TaskTableView.delegate     = self
-        
         persistentStorage.todayListDelegate = self
         
-        listType = .Today
         tasks = readTasks(from: listType)
     }
- 
-//    func updateUI() {
-//        tasks = readTasks(from: listType)
-//        TaskTableView.reloadData()
-//    }
 }
 
 // MARK: - Extensions
 extension TodayListViewController: PersistentStorageTodayListDelegate {
-    
+
     func didUpdateList() {
-        
         tasks = readTasks(from: listType)
         TaskTableView.reloadData()
     }
 }
 
 extension TodayListViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return tasks.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell
-        else {
+        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
@@ -64,12 +56,13 @@ extension TodayListViewController: UITableViewDataSource {
 extension TodayListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
+        
         let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
 
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
             
-            self.moveTask(at: indexPath.row, to: .Later)
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Later)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })
@@ -87,7 +80,8 @@ extension TodayListViewController: UITableViewDelegate {
 
         let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view,completionHandler) in
             
-            self.moveTask(at: indexPath.row, to: .Never)
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+            self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })
