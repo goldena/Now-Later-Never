@@ -42,11 +42,19 @@ extension TodayListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = TaskTableView.dequeueReusableCell(withIdentifier: Const.TaskReusableCellID, for: indexPath) as? TaskTableViewCell else {
+        guard let cell = TaskTableView.dequeueReusableCell(
+                withIdentifier: Const.TaskReusableCellID,
+                for: indexPath
+        ) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
+        if tasks[indexPath.row].done == false {
+            cell.accessoryType = .none
+        } else {
+            cell.accessoryType = .checkmark
+        }
+        
         cell.TaskLabel.text = tasks[indexPath.row].title
         return cell
     }
@@ -91,8 +99,15 @@ extension TodayListViewController: UITableViewDelegate {
         return configuration
     }
 
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//        
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+            } else {
+                cell.accessoryType = .checkmark
+            }
+            
+            tasks[indexPath.row].done.toggle()
+        }
+    }
 }

@@ -24,22 +24,21 @@ struct Task {
     var title: String
     var category: Category
     var date: Date
+    var done: Bool
 }
 
 // MARK: - Protocol and Extension for AllCasesRawRepresentable
 protocol AllCasesRawRepresentable: CaseIterable, RawRepresentable {
-    static var rawValues: [String] { get }
+    static func rawValues<T>() -> [T] where T == RawValue
 }
     
 extension AllCasesRawRepresentable {
-    static var rawValues: [String] {
-    
-        var rawValues: [String] = []
+    static func rawValues<T>() -> [T] where T == RawValue {
+        var rawValues: [T] = []
         
-        for eachCase in self.allCases {
-            rawValues.append(eachCase.rawValue as? String ?? "")
+        for eachCase in Self.allCases {
+            rawValues.append(eachCase.rawValue)
         }
-        
         return rawValues
     }
 }

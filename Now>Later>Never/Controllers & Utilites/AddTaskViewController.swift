@@ -21,8 +21,8 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initSegmentedControl(CategoryOfTaskSegmentedControl, with: Category.rawValues)
-        initSegmentedControl(DeadlineSegmentedControl, with: ListType.rawValues)
+        initSegmentedControl(CategoryOfTaskSegmentedControl, with: Category.rawValues())
+        initSegmentedControl(DeadlineSegmentedControl, with: ListType.rawValues())
         
         TaskTitleTextField.delegate = self
         
@@ -78,30 +78,28 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         for index in 0..<segmentNames.count {
             segmentedControl.insertSegment(withTitle: segmentNames[index], at: index, animated: true)
         }
-        
         segmentedControl.selectedSegmentIndex = 0
+    }
+    
+    func getSegmentName(segmentedControl: UISegmentedControl) -> String {
+        let selectedIndex = segmentedControl.selectedSegmentIndex
+        
+        guard selectedIndex != UISegmentedControl.noSegment,
+              let selectedTitle = segmentedControl.titleForSegment(at: selectedIndex) else {
+            fatalError("No segment of UISegmentedcontrol was selected or no title exists")
+        }
+        return selectedTitle
     }
     
     // MARK: - Methods - Actions
     @IBAction private func AddTaskButtonPressed(_ sender: UIButton) {
-        
-        let selectedDeadlineIndex = DeadlineSegmentedControl.selectedSegmentIndex
-        let selectedCategoryIndex = CategoryOfTaskSegmentedControl.selectedSegmentIndex
-        
-        
-        #warning("Consider refactoring")
         // Segment is selected, its Title exists, its Category is valid
-        guard selectedCategoryIndex != UISegmentedControl.noSegment,
-              let selectedCategoryTitle = CategoryOfTaskSegmentedControl.titleForSegment(at: selectedCategoryIndex),
-              let category = Category.init(rawValue: selectedCategoryTitle) else {
-            fatalError("No segment of UISegmentedcontrol was selected || no title exists || invalid category")
-        }
+        let categoryTitle = getSegmentName(segmentedControl: CategoryOfTaskSegmentedControl)
+        let deadlineTitle = getSegmentName(segmentedControl: DeadlineSegmentedControl)
         
-        // Segment is selected, its Title exists, its Category is valid
-        guard selectedDeadlineIndex != UISegmentedControl.noSegment,
-              let selectedDeadlineTitle = DeadlineSegmentedControl.titleForSegment(at: selectedDeadlineIndex),
-              let deadline = ListType.init(rawValue: selectedDeadlineTitle) else {
-            fatalError("No segment of UISegmentedcontrol was selected || no title exists || invalid category")
+        guard let category = Category.init(rawValue: categoryTitle),
+              let deadline = ListType.init(rawValue: deadlineTitle) else {
+            fatalError("Selected segment is not valid")
         }
         
         guard let taskTitle = TaskTitleTextField.text,
@@ -111,7 +109,13 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             return
         }
         
-        let task = Task(title: taskTitle + category.rawValue, category: category, date: Date())
+        #warning("Temrorary impementation")
+        let task = Task(
+            title: taskTitle + category.rawValue,
+            category: category,
+            date: Date(),
+            done: false
+        )
         addTask(task, to: deadline)
         
         self.dismiss(animated: true, completion: nil)
@@ -124,7 +128,6 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
 
 // MARK: - Extensions
 extension UIViewController: UITextFieldDelegate {
-    
     // Dismiss keyboard after pressing Return key
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -133,7 +136,6 @@ extension UIViewController: UITextFieldDelegate {
 }
 
 extension UIViewController {
-    
     func showAlert(title alertTitle: String, message alertMessage: String) {
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
