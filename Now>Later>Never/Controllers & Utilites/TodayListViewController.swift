@@ -20,6 +20,7 @@ class TodayListViewController: UIViewController, PersistentStorageCRUD {
         
         TaskTableView.dataSource = self
         TaskTableView.delegate = self
+        
         persistentStorage.todayListDelegate = self
         
         tasks = readTasks(from: listType)
@@ -62,6 +63,7 @@ extension TodayListViewController: UITableViewDataSource {
 
 extension TodayListViewController: UITableViewDelegate {
     
+    // Leading swipe action
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
 
@@ -80,6 +82,7 @@ extension TodayListViewController: UITableViewDelegate {
         return configuration
     }
 
+    // Trailing swipe action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
@@ -100,14 +103,16 @@ extension TodayListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.accessoryType == .checkmark {
-                cell.accessoryType = .none
-            } else {
-                cell.accessoryType = .checkmark
-            }
-            
-            tasks[indexPath.row].done.toggle()
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            fatalError("Invalid cell selection")
         }
+        
+        if cell.accessoryType == .checkmark {
+            cell.accessoryType = .none
+        } else {
+            cell.accessoryType = .checkmark
+        }
+        
+        tasks[indexPath.row].done.toggle()
     }
 }
