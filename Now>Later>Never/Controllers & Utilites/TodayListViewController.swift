@@ -10,8 +10,8 @@ import UIKit
 class TodayListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    var listType: ListType = .Today
-    var tasks: [Task] = []
+    private var listType: ListType = .Today
+    private var tasks: [Task] = []
 
     @IBOutlet private weak var TaskTableView: UITableView!
     
@@ -65,6 +65,7 @@ extension TodayListViewController: UITableViewDelegate {
     
     // Leading swipe action
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
         let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
 
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
@@ -106,13 +107,21 @@ extension TodayListViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) else {
             fatalError("Invalid cell selection")
         }
+
+        // Deselect cell after a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
+            cell.isSelected = false
+        }
         
+        // Toggle checkmark
         if cell.accessoryType == .checkmark {
             cell.accessoryType = .none
         } else {
             cell.accessoryType = .checkmark
         }
         
+        // Change Data Source
         tasks[indexPath.row].done.toggle()
+        
     }
 }

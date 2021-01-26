@@ -10,8 +10,8 @@ import UIKit
 class NeverListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    var listType: ListType = .Never
-    var tasks: [Task] = []
+    private var listType: ListType = .Never
+    private var tasks: [Task] = []
     
     @IBOutlet private weak var TaskTableView: UITableView!
     

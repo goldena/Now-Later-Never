@@ -10,8 +10,8 @@ import UIKit
 class LaterListViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    var listType: ListType = .Later
-    var tasks: [Task] = []
+    private var listType: ListType = .Later
+    private var tasks: [Task] = []
     
     @IBOutlet private weak var TaskTableView: UITableView!
     

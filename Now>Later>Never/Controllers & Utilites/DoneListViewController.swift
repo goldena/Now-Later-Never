@@ -10,8 +10,8 @@ import UIKit
 class DoneListViewController: UIViewController, PersistentStorageCRUD {
 
     // MARK: - Properties
-    var listType: ListType = .Done
-    var tasks: [Task] = []
+    private var listType: ListType = .Done
+    private var tasks: [Task] = []
     
     @IBOutlet private weak var TaskTableView: UITableView!
     
