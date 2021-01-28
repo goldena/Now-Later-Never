@@ -28,20 +28,34 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-so-CQT" userLabel="Task Label">
-                                                    <rect key="frame" x="20" y="38" width="48" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="n9f-Ih-3lo" userLabel="Task Stack View">
+                                                    <rect key="frame" x="20" y="11" width="97.5" height="78"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-so-CQT" userLabel="Task Label">
+                                                            <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaY-5S-s8l">
+                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="0.0"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="z1c-so-CQT" firstAttribute="leading" secondItem="QAo-XQ-Qim" secondAttribute="leadingMargin" id="8dP-3V-8md"/>
-                                                <constraint firstItem="z1c-so-CQT" firstAttribute="centerY" secondItem="QAo-XQ-Qim" secondAttribute="centerY" id="sOu-Pb-lIH"/>
+                                                <constraint firstItem="n9f-Ih-3lo" firstAttribute="leading" secondItem="QAo-XQ-Qim" secondAttribute="leadingMargin" id="PPC-sr-PKS"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="n9f-Ih-3lo" secondAttribute="bottom" id="YnN-se-ULQ"/>
+                                                <constraint firstItem="n9f-Ih-3lo" firstAttribute="top" secondItem="QAo-XQ-Qim" secondAttribute="topMargin" id="jKn-mB-85K"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="TaskLabel" destination="z1c-so-CQT" id="1qm-oZ-2Eh"/>
+                                            <outlet property="TaskDescriptionLabel" destination="zaY-5S-s8l" id="n8g-v9-Rer"/>
+                                            <outlet property="TaskDescriptionStackView" destination="n9f-Ih-3lo" id="P2x-nh-pl3"/>
+                                            <outlet property="TaskTitleLabel" destination="z1c-so-CQT" id="1qm-oZ-2Eh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -83,27 +97,39 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="M1b-Th-feV" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="m8y-55-5c0" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M1b-Th-feV" id="oIh-6s-93G">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m8y-55-5c0" id="sdo-D7-vbD">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhA-Ib-MeW" userLabel="Task Label">
-                                                            <rect key="frame" x="20" y="38" width="48" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="E13-9g-zFY">
+                                                            <rect key="frame" x="20" y="11" width="97.5" height="78"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spa-gS-qH5" userLabel="Task Label">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="90b-yU-rQE">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="0.0"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <color key="textColor" systemColor="systemGrayColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="dhA-Ib-MeW" firstAttribute="centerY" secondItem="oIh-6s-93G" secondAttribute="centerY" id="D4C-d5-DPZ"/>
-                                                        <constraint firstItem="dhA-Ib-MeW" firstAttribute="leading" secondItem="oIh-6s-93G" secondAttribute="leadingMargin" id="Q8g-Oj-n3J"/>
+                                                        <constraint firstItem="E13-9g-zFY" firstAttribute="leading" secondItem="sdo-D7-vbD" secondAttribute="leadingMargin" id="AGd-iK-KCa"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="E13-9g-zFY" secondAttribute="bottom" id="QAF-hV-yBo"/>
+                                                        <constraint firstItem="E13-9g-zFY" firstAttribute="top" secondItem="sdo-D7-vbD" secondAttribute="topMargin" id="rjR-8t-gYM"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <outlet property="TaskLabel" destination="dhA-Ib-MeW" id="CrW-Dz-Nb8"/>
+                                                    <outlet property="TaskTitleLabel" destination="Spa-gS-qH5" id="KfO-N8-Rgm"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -167,27 +193,39 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="IlW-iv-cp8" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="v2q-W4-lFr" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IlW-iv-cp8" id="0Fb-Uw-VoT">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v2q-W4-lFr" id="sgl-YG-FxY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bqk-le-xed" userLabel="Task Label">
-                                                    <rect key="frame" x="20" y="38" width="48" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="xGb-je-4FJ">
+                                                    <rect key="frame" x="20" y="11" width="97.5" height="78"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAy-qU-V5y" userLabel="Task Label">
+                                                            <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPO-Zf-l8N">
+                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="0.0"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Bqk-le-xed" firstAttribute="leading" secondItem="0Fb-Uw-VoT" secondAttribute="leadingMargin" id="VEM-hA-N5z"/>
-                                                <constraint firstItem="Bqk-le-xed" firstAttribute="centerY" secondItem="0Fb-Uw-VoT" secondAttribute="centerY" id="yJ7-9K-Tga"/>
+                                                <constraint firstItem="xGb-je-4FJ" firstAttribute="top" secondItem="sgl-YG-FxY" secondAttribute="topMargin" id="JK0-eO-B94"/>
+                                                <constraint firstItem="xGb-je-4FJ" firstAttribute="leading" secondItem="sgl-YG-FxY" secondAttribute="leadingMargin" id="lbf-GY-2Nr"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="xGb-je-4FJ" secondAttribute="bottom" id="pFX-VY-lSj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="TaskLabel" destination="Bqk-le-xed" id="esQ-DT-03G"/>
+                                            <outlet property="TaskTitleLabel" destination="SAy-qU-V5y" id="6Yu-a9-xZh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -223,27 +261,39 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="EXS-Nj-ugn" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskReusableCellID" id="ztg-0m-hre" userLabel="Task Reusable Cell" customClass="TaskTableViewCell" customModule="Now_Later_Never" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EXS-Nj-ugn" id="6oT-A4-h1N">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ztg-0m-hre" id="Ofe-7f-ela">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoM-i5-NKr" userLabel="Task Label">
-                                                    <rect key="frame" x="20" y="38" width="48" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nCc-fY-8rf">
+                                                    <rect key="frame" x="20" y="11" width="97.5" height="78"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HlQ-PU-24p" userLabel="Task Label">
+                                                            <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task's Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ui-EI-GfH">
+                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="0.0"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="aoM-i5-NKr" firstAttribute="leading" secondItem="6oT-A4-h1N" secondAttribute="leadingMargin" id="aHm-O8-yf4"/>
-                                                <constraint firstItem="aoM-i5-NKr" firstAttribute="centerY" secondItem="6oT-A4-h1N" secondAttribute="centerY" id="aOU-Da-PQm"/>
+                                                <constraint firstItem="nCc-fY-8rf" firstAttribute="leading" secondItem="Ofe-7f-ela" secondAttribute="leadingMargin" id="ED2-Lt-dIQ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="nCc-fY-8rf" secondAttribute="bottom" id="S8a-yp-7U8"/>
+                                                <constraint firstItem="nCc-fY-8rf" firstAttribute="top" secondItem="Ofe-7f-ela" secondAttribute="topMargin" id="gxW-Rw-Q40"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="TaskLabel" destination="aoM-i5-NKr" id="ch9-gO-bkf"/>
+                                            <outlet property="TaskTitleLabel" destination="HlQ-PU-24p" id="Wd3-Im-Qv0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -432,6 +482,9 @@
         <image name="xmark.square" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

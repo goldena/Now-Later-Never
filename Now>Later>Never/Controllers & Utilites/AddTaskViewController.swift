@@ -98,7 +98,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         let deadlineTitle = getSegmentName(segmentedControl: DeadlineSegmentedControl)
         
         guard let category = Category.init(rawValue: categoryTitle),
-              let deadline = ListType.init(rawValue: deadlineTitle) else {
+              let listType = ListType.init(rawValue: deadlineTitle) else {
             fatalError("Selected segment is not valid")
         }
         
@@ -109,14 +109,20 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             return
         }
         
+        let taskDescription = TaskDescriptionTextField.text
+        
+        // If a Task is added to the Done listType, then mark as done.
+        let done = listType == .Done
+        
         #warning("Temrorary impementation")
         let task = Task(
             title: taskTitle + category.rawValue,
+            description: taskDescription,
             category: category,
             date: Date(),
-            done: false
+            done: done
         )
-        addTask(task, to: deadline)
+        addTask(task, to: listType)
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -128,6 +134,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
 
 // MARK: - Extensions
 extension UIViewController: UITextFieldDelegate {
+    
     // Dismiss keyboard after pressing Return key
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -136,8 +143,10 @@ extension UIViewController: UITextFieldDelegate {
 }
 
 extension UIViewController {
+    
     func showAlert(title alertTitle: String, message alertMessage: String) {
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true)
     }

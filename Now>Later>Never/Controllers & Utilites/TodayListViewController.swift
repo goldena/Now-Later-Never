@@ -41,22 +41,33 @@ extension TodayListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = TaskTableView.dequeueReusableCell(
-                withIdentifier: Const.TaskReusableCellID,
-                for: indexPath
+            withIdentifier: Const.TaskReusableCellID,
+            for: indexPath
         ) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        if tasks[indexPath.row].done == false {
-            cell.accessoryType = .none
-        } else {
-            cell.accessoryType = .checkmark
-        }
+        let task = tasks[indexPath.row]
         
-        cell.TaskLabel.text = tasks[indexPath.row].title
+        cell.TaskTitleLabel.text = task.title
+
+        if task.done {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
+                
+        if task.description != nil {
+            cell.TaskDescriptionLabel.text = task.description
+            cell.TaskDescriptionLabel.isHidden = false
+        } else {
+            cell.TaskDescriptionLabel.isHidden = true
+        }
+            
         return cell
     }
 }
@@ -108,10 +119,12 @@ extension TodayListViewController: UITableViewDelegate {
             fatalError("Invalid cell selection")
         }
 
-        // Deselect cell after a delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
-            cell.isSelected = false
-        }
+        // Deselect row after a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+            // Check is selected row still exists
+            guard let _ = tableView.cellForRow(at: indexPath) else { return }
+            tableView.deselectRow(at: indexPath, animated: true)
+        })
         
         // Toggle checkmark
         if cell.accessoryType == .checkmark {
@@ -120,8 +133,7 @@ extension TodayListViewController: UITableViewDelegate {
             cell.accessoryType = .checkmark
         }
         
-        // Change Data Source
+        // Update Data Source
         tasks[indexPath.row].done.toggle()
-        
     }
 }

@@ -50,7 +50,7 @@ final class PersistentStorage {
     
     // MARK: - Properties - Temporary data stub
     private var todayList =
-        [Task(title: "test1", category: .Personal, date: Date(), done: false),
+        [Task(title: "test1", description: "test1", category: .Personal, date: Date(), done: false),
          Task(title: "test2", category: .Personal, date: Date(), done: false),
          Task(title: "test3", category: .Personal, date: Date(), done: false),
          Task(title: "test4", category: .Personal, date: Date(), done: false),

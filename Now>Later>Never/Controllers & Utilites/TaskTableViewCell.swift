@@ -9,12 +9,23 @@ import UIKit
 
 class TaskTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var TaskLabel: UILabel!
+    // MARK: - Properties - Outlets
+    @IBOutlet weak var TaskTitleLabel: UILabel!
+    @IBOutlet weak var TaskDescriptionLabel: UILabel!
+    @IBOutlet weak var TaskDescriptionStackView: UIStackView!
     
+    // MARK: - Methods - View Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+            
+//        TaskTitleLabel.text = nil
+//        TaskDescriptionLabel.text = nil
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
