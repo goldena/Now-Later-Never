@@ -174,13 +174,13 @@
 			isa = PBXGroup;
 			children = (
 				CF46963125B0DEFE00172538 /* TabBarController.swift */,
-				CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */,
 				CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */,
 				CF8D7B6A25A2880300973328 /* TodayListViewController.swift */,
 				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
 				CF8D7B8E25AA503700973328 /* DoneListViewController.swift */,
 				CF8D7B9325AA505000973328 /* NeverListViewController.swift */,
 				CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */,
+				CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */,
 			);
 			path = "Controllers & Utilites";
 			sourceTree = "<group>";

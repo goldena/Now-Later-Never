@@ -60,7 +60,8 @@ extension TodayListViewController: UITableViewDataSource {
         } else {
             cell.accessoryType = .none
         }
-                
+        
+        // Show or hide task description depending on if it is nil or not
         if task.description != nil {
             cell.TaskDescriptionLabel.text = task.description
             cell.TaskDescriptionLabel.isHidden = false

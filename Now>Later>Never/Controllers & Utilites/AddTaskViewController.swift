@@ -67,6 +67,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     // Dismissed keyboard after tapping outside of an edited field
     func tapOutsideTextFieldGestureRecognizer() {
         let tapOutsideTextField = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        
         tapOutsideTextField.cancelsTouchesInView = false
         view.addGestureRecognizer(tapOutsideTextField)
     }
@@ -109,8 +110,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             return
         }
         
-        let taskDescription = TaskDescriptionTextField.text
-        
+        let taskDescription = TaskDescriptionTextField.text        
         // If a Task is added to the Done listType, then mark as done.
         let done = listType == .Done
         
