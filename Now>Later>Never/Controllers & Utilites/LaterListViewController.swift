@@ -48,7 +48,7 @@ extension LaterListViewController: UITableViewDataSource {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
 
-        cell.TaskTitleLabel.text = tasks[indexPath.row].title
+        cell.taskTitleLabel.text = tasks[indexPath.row].title
         return cell
     }
 }

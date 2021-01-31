@@ -11,46 +11,72 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewControllers = configureViewControllers()
 
         delegate = self
-        // customizeAddTaskTabBarItem()
     }
-     
-    func customizeAddTaskTabBarItem() {
-        var addTaskTabBarItem = UITabBarItem()
+         
+    func configureViewControllers() -> [UIViewController] {
+        var configuredViewControllers: [UIViewController] = []
         
-        let largeSFSymbol = UIImage.SymbolConfiguration(scale: .large)
-        let addTaskNormalImage = UIImage(systemName: "plus.square", withConfiguration: largeSFSymbol)!
-            .withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-            .withTintColor(.systemGreen)
-        let addTaskSelectedImage = UIImage(systemName: "plus.square.fill", withConfiguration: largeSFSymbol)!
-            .withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-            .withTintColor(.systemBlue)
+        let todayListViewController = ListViewController(listType: .Today)
+        todayListViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        configuredViewControllers.append(todayListViewController)
         
-        for item in self.tabBar.items! {
-            if item.tag == 1 {
-                addTaskTabBarItem = item
-            }
-        }
-                
-        addTaskTabBarItem.image = addTaskNormalImage
-        addTaskTabBarItem.selectedImage = addTaskSelectedImage
+        let laterListViewController = ListViewController(listType: .Later)
+        laterListViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
+        configuredViewControllers.append(laterListViewController)
+
+        let addTaskViewController = AddTaskViewController()
+        addTaskViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        configuredViewControllers.append(addTaskViewController)
+
+        let doneListViewController = ListViewController(listType: .Done)
+        doneListViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 3)
+        configuredViewControllers.append(doneListViewController)
+
+        let neverListViewController = ListViewController(listType: .Never)
+        neverListViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 4)
+        configuredViewControllers.append(neverListViewController)
+        
+        return configuredViewControllers
     }
     
-    func tabBarController(
-        _ tabBarController: UITabBarController,
-        shouldSelect viewController: UIViewController
-    ) -> Bool {
-        guard type(of: viewController) == AddTaskViewController.self else {
-            return true
-        }
-
-        guard let addTaskViewController = tabBarController.storyboard?.instantiateViewController(withIdentifier: "Add Task") else {
-            fatalError("Could not instantiate ViewController for Add Task tab")
-        }
+    func addTaskBarItem(name: String, image: String, selectedImage: String?) -> UITabBarItem {
+        let newTabBarItem = UITabBarItem()
         
-        tabBarController.present(addTaskViewController, animated: true)
-        return false
-    }
+        let largeSFSymbol = UIImage.SymbolConfiguration(scale: .large)
 
+        // TODO: Force Unwrapping, consider refactoring
+        let newTaskNormalImage = UIImage(systemName: image, withConfiguration: largeSFSymbol)!
+            .withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            .withTintColor(.systemGreen)
+        
+        newTabBarItem.image = newTaskNormalImage
+
+        if let selectedImage = selectedImage {
+            let newTaskSelectedImage = UIImage(systemName: selectedImage, withConfiguration: largeSFSymbol)!
+                .withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                .withTintColor(.systemBlue)
+            
+            newTabBarItem.selectedImage = newTaskSelectedImage
+        }
+                
+        return newTabBarItem
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+//        if viewController is AddTaskViewController {
+//            guard let addTaskViewController = viewController as? AddTaskViewController else {
+//                fatalError("Could not instantiate ViewController for Add Task tab")
+//            }
+//            
+//            self.present(addTaskViewController, animated: true)
+//            return false
+//        }
+        
+        return true
+    }
 }

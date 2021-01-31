@@ -10,21 +10,27 @@ import UIKit
 class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    @IBOutlet private weak var TaskTitleTextField: UITextField!
-    @IBOutlet private weak var TaskDescriptionTextField: UITextField!
+    private var taskTitleTextField: UITextField!
+    private var taskDescriptionTextField: UITextField!
     
-    @IBOutlet private weak var CategoryOfTaskSegmentedControl: UISegmentedControl!
-    @IBOutlet private weak var DeadlineSegmentedControl: UISegmentedControl!
+    private var categoryOfTaskSegmentedControl: UISegmentedControl!
+    private var deadlineSegmentedControl: UISegmentedControl!
     
-    @IBOutlet private weak var AddTaskBottomMarginConstraint: NSLayoutConstraint!
+    private weak var addTaskBottomMarginConstraint: NSLayoutConstraint!
+    
+    override func loadView() {
+        view = UIView()
+        
+        view.backgroundColor = .red
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initSegmentedControl(CategoryOfTaskSegmentedControl, with: Category.rawValues())
-        initSegmentedControl(DeadlineSegmentedControl, with: ListType.rawValues())
+        // initSegmentedControl(categoryOfTaskSegmentedControl, with: Category.rawValues())
+        // initSegmentedControl(deadlineSegmentedControl, with: ListType.rawValues())
         
-        TaskTitleTextField.delegate = self
+        // taskTitleTextField.delegate = self
         
         // Adds gesture recognizer to dismiss a keyboard when there is a tap outside of an edited field
         tapOutsideTextFieldGestureRecognizer()
@@ -49,7 +55,8 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
               let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        self.AddTaskBottomMarginConstraint.constant = keyboardFrame.cgRectValue.height
+        
+        self.addTaskBottomMarginConstraint.constant = keyboardFrame.cgRectValue.height
         
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
@@ -57,7 +64,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        self.AddTaskBottomMarginConstraint.constant = 0
+        self.addTaskBottomMarginConstraint.constant = 0
         
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
@@ -79,6 +86,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         for index in 0..<segmentNames.count {
             segmentedControl.insertSegment(withTitle: segmentNames[index], at: index, animated: true)
         }
+        
         segmentedControl.selectedSegmentIndex = 0
     }
     
@@ -89,28 +97,29 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
               let selectedTitle = segmentedControl.titleForSegment(at: selectedIndex) else {
             fatalError("No segment of UISegmentedcontrol was selected or no title exists")
         }
+        
         return selectedTitle
     }
     
     // MARK: - Methods - Actions
     @IBAction private func AddTaskButtonPressed(_ sender: UIButton) {
         // Segment is selected, its Title exists, its Category is valid
-        let categoryTitle = getSegmentName(segmentedControl: CategoryOfTaskSegmentedControl)
-        let deadlineTitle = getSegmentName(segmentedControl: DeadlineSegmentedControl)
+        let categoryTitle = getSegmentName(segmentedControl: categoryOfTaskSegmentedControl)
+        let deadlineTitle = getSegmentName(segmentedControl: deadlineSegmentedControl)
         
         guard let category = Category.init(rawValue: categoryTitle),
               let listType = ListType.init(rawValue: deadlineTitle) else {
             fatalError("Selected segment is not valid")
         }
         
-        guard let taskTitle = TaskTitleTextField.text,
+        guard let taskTitle = taskTitleTextField.text,
               taskTitle != "" else {
             // Alert if a New Task's Title is empty
             showAlert(title: "No title entered", message: "Please add a title to the Task")
             return
         }
         
-        let taskDescription = TaskDescriptionTextField.text        
+        let taskDescription = taskDescriptionTextField.text
         // If a Task is added to the Done listType, then mark as done.
         let done = listType == .Done
         

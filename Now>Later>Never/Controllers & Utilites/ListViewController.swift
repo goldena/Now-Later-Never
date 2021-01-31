@@ -9,23 +9,55 @@ import UIKit
 
 class ListViewController: UIViewController, PersistentStorageCRUD {
     
-    // MARK: - Properties
-    private var listType: ListType = .Today
-    private var tasks: [Task] = []
+    // MARK: - Class Init
+    init(listType: ListType) {
+        self.listType = listType
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    // MARK: - Properties - Outlets
-    @IBOutlet private weak var TaskTableView: UITableView!
+    // MARK: - Properties
+    private var listType: ListType
+    private var tasks: [Task] = []
+    private var taskTableView: UITableView!
+    
+    override func loadView() {
+        
+        taskTableView = UITableView()
+        
+        view = taskTableView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TaskTableView.dataSource = self
-        TaskTableView.delegate = self
+        #warning("Remove")
+        view.backgroundColor = .blue
+        configTableView()
+        
+        //taskTableView.rowHeight = UITableView.automaticDimension
+        //taskTableView.estimatedRowHeight = 100
+        taskTableView.rowHeight = 100
+        
+        taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: Const.TaskReusableCellID)
+        taskTableView.dataSource = self
+        taskTableView.delegate = self
         
         persistentStorage.todayListDelegate = self
         
         tasks = readTasks(from: listType)        
     }
+    
+    func configTableView() {
+        
+        // taskTableView.
+        // taskTableView.addConstraint(NSLayoutConstraint.constra)
+    }
+
 }
 
 // MARK: - Extensions
@@ -33,7 +65,7 @@ extension ListViewController: PersistentStorageTodayListDelegate {
 
     func didUpdateList() {
         tasks = readTasks(from: listType)
-        TaskTableView.reloadData()
+        taskTableView.reloadData()
     }
 }
 
@@ -45,7 +77,7 @@ extension ListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = TaskTableView.dequeueReusableCell(
+        guard let cell = taskTableView.dequeueReusableCell(
             withIdentifier: Const.TaskReusableCellID,
             for: indexPath
         ) as? TaskTableViewCell else {
@@ -54,20 +86,20 @@ extension ListViewController: UITableViewDataSource {
 
         let task = tasks[indexPath.row]
         
-        cell.TaskTitleLabel.text = task.title
+        cell.taskTitleLabel.text = task.title
 
         if task.done {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
         }
-        
+
         // Show or hide task description depending on if it is nil or not
         if task.description != nil {
-            cell.TaskDescriptionLabel.text = task.description
-            cell.TaskDescriptionLabel.isHidden = false
+            cell.taskDescriptionLabel.text = task.description
+            cell.taskDescriptionLabel.isHidden = false
         } else {
-            cell.TaskDescriptionLabel.isHidden = true
+            cell.taskDescriptionLabel.isHidden = true
         }
             
         return cell
