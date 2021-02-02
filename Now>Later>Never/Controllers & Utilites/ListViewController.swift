@@ -131,13 +131,17 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
-
-        let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view,completionHandler) in
-            self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
-            self.tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        })
+        
+        let action = UIContextualAction(
+            style: .destructive,
+            title: title,
+            handler: { (action, view,completionHandler)
+                in
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
         
         action.image = UIImage(systemName: "xmark", withConfiguration: Const.LargeSFSymbol)
         action.backgroundColor = .systemRed
@@ -159,11 +163,7 @@ extension ListViewController: UITableViewDelegate {
         })
         
         // Toggle checkmark
-        if cell.accessoryType == .checkmark {
-            cell.accessoryType = .none
-        } else {
-            cell.accessoryType = .checkmark
-        }
+        cell.toggleCheckmark()
         
         // Update Data Source
         tasks[indexPath.row].done.toggle()

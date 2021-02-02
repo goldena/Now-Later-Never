@@ -65,3 +65,15 @@ class TaskTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 }
+
+// MARK: - Extensions
+extension UITableViewCell {
+
+    func toggleCheckmark() {
+        if accessoryType == .checkmark {
+            accessoryType = .none
+        } else {
+            accessoryType = .checkmark
+        }
+    }
+}
