@@ -112,16 +112,15 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
-
+        
         let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
-            
             self.moveTask(from: self.listType, at: indexPath.row, to: .Later)
             self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })
 
-        //action.image = UIImage(named: "heart")
+        action.image = UIImage(systemName: "arrow.right", withConfiguration: Const.LargeSFSymbol)
         action.backgroundColor = .systemGreen
 
         let configuration = UISwipeActionsConfiguration(actions: [action])
@@ -134,14 +133,13 @@ extension ListViewController: UITableViewDelegate {
         let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
 
         let action = UIContextualAction(style: .destructive, title: title, handler: { (action, view,completionHandler) in
-            
             self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
             self.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         })
         
-        //action.image = UIImage(named: "heart")
+        action.image = UIImage(systemName: "xmark", withConfiguration: Const.LargeSFSymbol)
         action.backgroundColor = .systemRed
 
         let configuration = UISwipeActionsConfiguration(actions: [action])
