@@ -8,6 +8,11 @@
 import UIKit
 
 class ListViewController: UIViewController, PersistentStorageCRUD {
+        
+    // MARK: - Properties
+    private var listType: ListType
+    private var tasks: [Task] = []
+    private var taskTableView: UITableView!
     
     // MARK: - Class Init
     init(listType: ListType) {
@@ -20,28 +25,19 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Properties
-    private var listType: ListType
-    private var tasks: [Task] = []
-    private var taskTableView: UITableView!
-    
+    // MARK: - Methods - View Lifecycle
     override func loadView() {
-        
         taskTableView = UITableView()
-        
         view = taskTableView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #warning("Remove")
-        view.backgroundColor = .blue
-        configTableView()
+        taskTableView.rowHeight = 100
         
         //taskTableView.rowHeight = UITableView.automaticDimension
         //taskTableView.estimatedRowHeight = 100
-        taskTableView.rowHeight = 100
         
         taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: Const.TaskReusableCellID)
         taskTableView.dataSource = self
@@ -51,13 +47,6 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         
         tasks = readTasks(from: listType)        
     }
-    
-    func configTableView() {
-        
-        // taskTableView.
-        // taskTableView.addConstraint(NSLayoutConstraint.constra)
-    }
-
 }
 
 // MARK: - Extensions

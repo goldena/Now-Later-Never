@@ -22,6 +22,8 @@
 		CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */; };
 		CF8D7B8F25AA503700973328 /* DoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B8E25AA503700973328 /* DoneListViewController.swift */; };
 		CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D7B9325AA505000973328 /* NeverListViewController.swift */; };
+		CF9D1A3025D0735400949A7B /* TaskUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D1A2F25D0735400949A7B /* TaskUILabel.swift */; };
+		CF9D1A3525D073BF00949A7B /* TaskUIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D1A3425D073BF00949A7B /* TaskUIStackView.swift */; };
 		CFB9D09025B45A330009FE53 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */; };
 		CFB9D09E25BD9A790009FE53 /* PersistentStorageCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +67,8 @@
 		CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B8E25AA503700973328 /* DoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneListViewController.swift; sourceTree = "<group>"; };
 		CF8D7B9325AA505000973328 /* NeverListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverListViewController.swift; sourceTree = "<group>"; };
+		CF9D1A2F25D0735400949A7B /* TaskUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUILabel.swift; sourceTree = "<group>"; };
+		CF9D1A3425D073BF00949A7B /* TaskUIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUIStackView.swift; sourceTree = "<group>"; };
 		CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorageCRUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,6 +164,8 @@
 		CF3E0C3B25A1F0DF00D51A96 /* Views & Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				CF9D1A2F25D0735400949A7B /* TaskUILabel.swift */,
+				CF9D1A3425D073BF00949A7B /* TaskUIStackView.swift */,
 			);
 			path = "Views & Custom Views";
 			sourceTree = "<group>";
@@ -168,13 +174,13 @@
 			isa = PBXGroup;
 			children = (
 				CF46963125B0DEFE00172538 /* TabBarController.swift */,
-				CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */,
 				CF8D7B6A25A2880300973328 /* ListViewController.swift */,
+				CF8D7B6225A1F94F00973328 /* TaskTableViewCell.swift */,
+				CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */,
+				CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */,
 				CF8D7B7825A9D68E00973328 /* LaterListViewController.swift */,
 				CF8D7B8E25AA503700973328 /* DoneListViewController.swift */,
 				CF8D7B9325AA505000973328 /* NeverListViewController.swift */,
-				CFB9D08F25B45A330009FE53 /* AddTaskViewController.swift */,
-				CFB9D09D25BD9A790009FE53 /* PersistentStorageCRUD.swift */,
 			);
 			path = "Controllers & Utilites";
 			sourceTree = "<group>";
@@ -309,9 +315,11 @@
 			files = (
 				CF8D7B6325A1F94F00973328 /* TaskTableViewCell.swift in Sources */,
 				CF3E0C4325A1F2FE00D51A96 /* PersistentStorage.swift in Sources */,
+				CF9D1A3525D073BF00949A7B /* TaskUIStackView.swift in Sources */,
 				CF3E0C0225A1F03000D51A96 /* AppDelegate.swift in Sources */,
 				CFB9D09E25BD9A790009FE53 /* PersistentStorageCRUD.swift in Sources */,
 				CF8D7B7925A9D68E00973328 /* LaterListViewController.swift in Sources */,
+				CF9D1A3025D0735400949A7B /* TaskUILabel.swift in Sources */,
 				CF8D7B9425AA505000973328 /* NeverListViewController.swift in Sources */,
 				CF8D7B6B25A2880300973328 /* ListViewController.swift in Sources */,
 				CF46963225B0DEFE00172538 /* TabBarController.swift in Sources */,

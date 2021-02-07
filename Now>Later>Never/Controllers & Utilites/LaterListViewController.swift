@@ -19,8 +19,8 @@ class LaterListViewController: UIViewController, PersistentStorageCRUD {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TaskTableView.dataSource   = self
-        TaskTableView.delegate     = self
+        TaskTableView.dataSource = self
+        TaskTableView.delegate = self
         persistentStorage.laterListDelegate = self
         
         tasks = readTasks(from: listType)

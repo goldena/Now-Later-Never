@@ -10,25 +10,71 @@ import UIKit
 class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    private var taskTitleTextField: UITextField!
-    private var taskDescriptionTextField: UITextField!
+    private var mainStackView = TaskUIStackView(axis: .vertical)
+
+    private var taskStackView = TaskUIStackView(axis: .vertical)
+    private var taskTitleLabel = TaskUILabel(text: "Task Description")
+    private var taskTitleTextField = UITextField()
     
-    private var categoryOfTaskSegmentedControl: UISegmentedControl!
-    private var deadlineSegmentedControl: UISegmentedControl!
+    private var descriptionStackView = TaskUIStackView(axis: .vertical)
+    private var taskDescriptionLabel = TaskUILabel(text: "Optional Task Description")
+    private var taskDescriptionTextField = UITextField()
+
+    private var categoryStackView = TaskUIStackView(axis: .vertical)
+    private var categoryTaskLabel = TaskUILabel(text: "Task Category")
+    private var categorySegmentedControl = UISegmentedControl()
+
+    private var deadlineStackView = TaskUIStackView(axis: .vertical)
+    private var deadlineLabel = TaskUILabel(text: "Task Deadline")
+    private var deadlineSegmentedControl = UISegmentedControl()
     
-    private weak var addTaskBottomMarginConstraint: NSLayoutConstraint!
-    
+    private var addTaskBottomMarginConstraint = NSLayoutConstraint()
+         
+    // MARK: - Methods - View Lifecycle
     override func loadView() {
         view = UIView()
+
+        // Create the Main StackView and add constraints
+        view.addSubview(mainStackView)
         
-        view.backgroundColor = .red
+        let margins = view.layoutMarginsGuide
+        
+        NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            // mainStackView.topAnchor.constraint(equalTo: margins.topAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+        ])
+        
+        // Add substacks
+        mainStackView.addArrangedSubview(categoryStackView)
+        mainStackView.addArrangedSubview(deadlineStackView)
+        mainStackView.addArrangedSubview(taskStackView)
+        mainStackView.addArrangedSubview(descriptionStackView)
+        
+        categoryStackView.addArrangedSubview(categoryTaskLabel)
+        categoryStackView.addArrangedSubview(categorySegmentedControl)
+        initSegmentedControl(categorySegmentedControl, with: Category.rawValues())
+        
+        deadlineStackView.addArrangedSubview(deadlineLabel)
+        deadlineStackView.addArrangedSubview(deadlineSegmentedControl)
+        initSegmentedControl(deadlineSegmentedControl, with: ListType.rawValues())
+        
+        taskStackView.addArrangedSubview(taskTitleLabel)
+        taskStackView.addArrangedSubview(taskTitleTextField)
+        
+        descriptionStackView.addArrangedSubview(taskDescriptionLabel)
+        descriptionStackView.addArrangedSubview(taskDescriptionTextField)
+
+//        NSLayoutConstraint.activate([
+//            taskDescriptionLabel.trailingAnchor.constraint(equalTo: mainStackMargins.trailingAnchor)
+//
+//            taskDescriptionLabel.centerXAnchor.constraint(equalTo: mainStackMargins.centerXAnchor)
+//        ])
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // initSegmentedControl(categoryOfTaskSegmentedControl, with: Category.rawValues())
-        // initSegmentedControl(deadlineSegmentedControl, with: ListType.rawValues())
         
         // taskTitleTextField.delegate = self
         
@@ -102,9 +148,9 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     }
     
     // MARK: - Methods - Actions
-    @IBAction private func AddTaskButtonPressed(_ sender: UIButton) {
+    private func AddTaskButtonPressed(_ sender: UIButton) {
         // Segment is selected, its Title exists, its Category is valid
-        let categoryTitle = getSegmentName(segmentedControl: categoryOfTaskSegmentedControl)
+        let categoryTitle = getSegmentName(segmentedControl: categorySegmentedControl)
         let deadlineTitle = getSegmentName(segmentedControl: deadlineSegmentedControl)
         
         guard let category = Category.init(rawValue: categoryTitle),
@@ -136,7 +182,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction private func CancelButtonPressed(_ sender: UIButton) {
+    private func CancelButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
 }
@@ -153,6 +199,7 @@ extension UIViewController: UITextFieldDelegate {
 
 extension UIViewController {
     
+    // Shows arerts with single Okay button
     func showAlert(title alertTitle: String, message alertMessage: String) {
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         
