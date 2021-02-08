@@ -13,18 +13,17 @@ class TaskUIStackView: UIStackView {
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
-        axis = .vertical
-        distribution = .equalSpacing
-        spacing = 8
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(axis: NSLayoutConstraint.Axis) {
+    convenience init(axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, spacing: CGFloat) {
         self.init()
-        
+
+        self.distribution = distribution
         self.axis = axis
+        self.spacing = spacing
     }
 }

@@ -27,7 +27,7 @@ class DoneListViewController: UIViewController, PersistentStorageCRUD {
 }
     
 // MARK: - Extensions
-extension DoneListViewController: PersistentStorageDoneListDelegate {
+extension DoneListViewController: PersistentStorageListDelegate {
     
     func didUpdateList() {
         tasks = readTasks(from: listType)

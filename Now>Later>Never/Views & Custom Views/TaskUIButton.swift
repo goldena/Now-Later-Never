@@ -1,5 +1,5 @@
 //
-//  TaskUITextField.swift
+//  TaskUIButton.swift
 //  Now>Later>Never
 //
 //  Created by Denis Goloborodko on 8.02.21.
@@ -7,24 +7,26 @@
 
 import UIKit
 
-class TaskUITextField: UITextField {
+class TaskUIButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        translatesAutoresizingMaskIntoConstraints = false
-        font = UIFont.systemFont(ofSize: 20)
-        backgroundColor = .placeholderText
+        clipsToBounds = true
         layer.cornerRadius = 8
+        backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(placeholder: String) {
+    convenience init(title: String) {
         self.init()
         
-        self.placeholder = placeholder
+        setTitle(title, for: .normal)
+        titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        setTitleColor(.label, for: .normal)
+        // setTitleColor(.secondaryLabel, for: .selected)
     }
 }

@@ -28,7 +28,7 @@ class LaterListViewController: UIViewController, PersistentStorageCRUD {
 }
     
 // MARK: - Extensions
-extension LaterListViewController: PersistentStorageLaterListDelegate {
+extension LaterListViewController: PersistentStorageListDelegate {
     
     func didUpdateList() {
         tasks = readTasks(from: listType)

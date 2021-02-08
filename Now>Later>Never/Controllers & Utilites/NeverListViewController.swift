@@ -28,7 +28,7 @@ class NeverListViewController: UIViewController, PersistentStorageCRUD {
 }
 
 // MARK: - Extensions
-extension NeverListViewController: PersistentStorageNeverListDelegate {
+extension NeverListViewController: PersistentStorageListDelegate {
     
     func didUpdateList() {
         tasks = readTasks(from: listType)

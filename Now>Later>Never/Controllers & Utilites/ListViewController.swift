@@ -47,7 +47,7 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
 }
 
 // MARK: - Extensions
-extension ListViewController: PersistentStorageTodayListDelegate {
+extension ListViewController: PersistentStorageListDelegate {
 
     func didUpdateList() {
         tasks = readTasks(from: listType)

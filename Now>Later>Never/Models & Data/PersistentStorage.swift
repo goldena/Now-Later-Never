@@ -25,28 +25,16 @@ enum StorageErrors: Error {
 }
 
 // MARK: - Protocols - Delegation
-protocol PersistentStorageTodayListDelegate {
-    func didUpdateList()
-}
-
-protocol PersistentStorageLaterListDelegate {
-    func didUpdateList()
-}
-
-protocol PersistentStorageDoneListDelegate {
-    func didUpdateList()
-}
-
-protocol PersistentStorageNeverListDelegate {
+protocol PersistentStorageListDelegate {
     func didUpdateList()
 }
 
 final class PersistentStorage {
     // MARK: - Properties - Delegates
-    var todayListDelegate:  PersistentStorageTodayListDelegate?
-    var laterListDelegate:  PersistentStorageLaterListDelegate?
-    var doneListDelegate:   PersistentStorageDoneListDelegate?
-    var neverListDelegate:  PersistentStorageNeverListDelegate?
+    var todayListDelegate: PersistentStorageListDelegate?
+    var laterListDelegate: PersistentStorageListDelegate?
+    var doneListDelegate: PersistentStorageListDelegate?
+    var neverListDelegate: PersistentStorageListDelegate?
     
     // MARK: - Properties - Temporary data stub
     private var todayList =

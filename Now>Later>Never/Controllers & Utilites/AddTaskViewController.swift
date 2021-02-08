@@ -10,23 +10,27 @@ import UIKit
 class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    private var mainStackView = TaskUIStackView(axis: .vertical)
+    private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 50)
 
-    private var taskStackView = TaskUIStackView(axis: .vertical)
-    private var taskTitleLabel = TaskUILabel(text: "Task Description")
+    private var taskStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
+    private var taskTitleLabel = TaskUILabel(text: "Task Title")
     private var taskTitleTextField = TaskUITextField(placeholder: "Enter a New Task")
     
-    private var descriptionStackView = TaskUIStackView(axis: .vertical)
+    private var descriptionStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
     private var taskDescriptionLabel = TaskUILabel(text: "Optional Task Description")
     private var taskDescriptionTextField = TaskUITextField(placeholder: "Enter a New Task's Description")
 
-    private var categoryStackView = TaskUIStackView(axis: .vertical)
+    private var categoryStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
     private var categoryTaskLabel = TaskUILabel(text: "Task Category")
     private var categorySegmentedControl = UISegmentedControl()
 
-    private var deadlineStackView = TaskUIStackView(axis: .vertical)
+    private var deadlineStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
     private var deadlineLabel = TaskUILabel(text: "Task Deadline")
     private var deadlineSegmentedControl = UISegmentedControl()
+    
+    private var buttonsStackView = TaskUIStackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
+    private var saveButton = TaskUIButton(title: "Add Task")
+    private var cancelButton = TaskUIButton(title: "Cancel")
     
     private var addTaskBottomMarginConstraint = NSLayoutConstraint()
          
@@ -35,13 +39,36 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         guard let margins = viewToConstraint.superview?.layoutMarginsGuide else {
             fatalError("Could not get margins of a superView")
         }
-        
+                
         NSLayoutConstraint.activate([
-            viewToConstraint.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            viewToConstraint.topAnchor.constraint(equalTo: margins.topAnchor),
-            viewToConstraint.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-            viewToConstraint.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            viewToConstraint.leadingAnchor.constraint(
+                equalTo: margins.leadingAnchor,
+                constant: systemMinimumLayoutMargins.leading
+            ),
+//            viewToConstraint.topAnchor.constraint(
+//                equalTo: margins.topAnchor,
+//                constant: systemMinimumLayoutMargins.top
+//            ),
+            viewToConstraint.trailingAnchor.constraint(
+                equalTo: margins.trailingAnchor,
+                constant: systemMinimumLayoutMargins.trailing
+            ),
+            viewToConstraint.bottomAnchor.constraint(
+                equalTo: margins.bottomAnchor,
+                constant: systemMinimumLayoutMargins.bottom
+            ),
         ])
+        
+//        if viewToConstraint is TaskUIStackView {
+//            categoryStackView.layoutMargins = UIEdgeInsets(
+//                top: systemMinimumLayoutMargins.top,
+//                left: systemMinimumLayoutMargins.leading,
+//                bottom: systemMinimumLayoutMargins.bottom,
+//                right: systemMinimumLayoutMargins.trailing
+//            )
+//
+//            categoryStackView.isLayoutMarginsRelativeArrangement = true
+
     }
     
     override func loadView() {
@@ -57,10 +84,12 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         mainStackView.addArrangedSubview(deadlineStackView)
         mainStackView.addArrangedSubview(taskStackView)
         mainStackView.addArrangedSubview(descriptionStackView)
+        mainStackView.addArrangedSubview(buttonsStackView)
         
         categoryStackView.addArrangedSubview(categoryTaskLabel)
         categoryStackView.addArrangedSubview(categorySegmentedControl)
         initSegmentedControl(categorySegmentedControl, with: Category.rawValues())
+        
         deadlineStackView.addArrangedSubview(deadlineLabel)
         deadlineStackView.addArrangedSubview(deadlineSegmentedControl)
         initSegmentedControl(deadlineSegmentedControl, with: ListType.rawValues())
@@ -70,7 +99,13 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         
         descriptionStackView.addArrangedSubview(taskDescriptionLabel)
         descriptionStackView.addArrangedSubview(taskDescriptionTextField)
-
+        
+        buttonsStackView.addArrangedSubview(saveButton)
+        buttonsStackView.addArrangedSubview(cancelButton)
+        
+        saveButton.addTarget(self, action: #selector(addTaskButtonPressed(_:)), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelButtonPressed(_:)), for: .touchUpInside)
+                
 //        NSLayoutConstraint.activate([
 //            taskDescriptionLabel.trailingAnchor.constraint(equalTo: mainStackMargins.trailingAnchor)
 //
@@ -153,7 +188,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     }
     
     // MARK: - Methods - Actions
-    private func AddTaskButtonPressed(_ sender: UIButton) {
+    @objc private func addTaskButtonPressed(_ sender: UIButton) {
         // Segment is selected, its Title exists, its Category is valid
         let categoryTitle = getSegmentName(segmentedControl: categorySegmentedControl)
         let deadlineTitle = getSegmentName(segmentedControl: deadlineSegmentedControl)
@@ -187,7 +222,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         self.dismiss(animated: true, completion: nil)
     }
     
-    private func CancelButtonPressed(_ sender: UIButton) {
+    @objc private func cancelButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
 }
