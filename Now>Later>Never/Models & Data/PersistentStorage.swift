@@ -107,12 +107,15 @@ final class PersistentStorage {
         case .Today:
             todayList.append(task)
             todayListDelegate?.didUpdateList()
+            
         case .Later:
             laterList.append(task)
             laterListDelegate?.didUpdateList()
+            
         case .Never:
             neverList.append(task)
             neverListDelegate?.didUpdateList()
+            
         case .Done:
             doneList.append(task)
             doneListDelegate?.didUpdateList()
@@ -125,10 +128,13 @@ final class PersistentStorage {
         switch list {
         case .Today:
             return .success(todayList)
+            
         case .Later:
             return .success(laterList)
+            
         case .Never:
             return .success(neverList)
+            
         case .Done:
             return .success(doneList)
         }
@@ -143,12 +149,15 @@ final class PersistentStorage {
         case .Today:
             todayList[index] = task
             // todayListDelegate?.didUpdateList()
+        
         case .Later:
             laterList[index] = task
             // laterListDelegate?.didUpdateList()
+        
         case .Never:
             neverList[index] = task
             // neverListDelegate?.didUpdateList()
+        
         case .Done:
             doneList[index] = task
             // doneListDelegate?.didUpdateList()
@@ -167,12 +176,15 @@ final class PersistentStorage {
         case .Today:
             // todayListDelegate?.didUpdateList()
             return .success(todayList.remove(at: index))
+            
         case .Later:
             // laterListDelegate?.didUpdateList()
             return .success(laterList.remove(at: index))
+            
         case .Never:
             // neverListDelegate?.didUpdateList()
             return .success(neverList.remove(at: index))
+            
         case .Done:
             // doneListDelegate?.didUpdateList()
             return .success(doneList.remove(at: index))
@@ -188,10 +200,13 @@ final class PersistentStorage {
         switch list {
         case .Today:
             return index < todayList.count
+            
         case .Later:
             return index < laterList.count
+            
         case .Never:
             return index < neverList.count
+            
         case .Done:
             return index < doneList.count
         }

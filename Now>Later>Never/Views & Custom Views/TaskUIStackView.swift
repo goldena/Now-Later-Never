@@ -16,7 +16,6 @@ class TaskUIStackView: UIStackView {
         axis = .vertical
         distribution = .equalSpacing
         spacing = 8
-        backgroundColor = .systemBackground
     }
     
     required init(coder: NSCoder) {
@@ -25,6 +24,7 @@ class TaskUIStackView: UIStackView {
     
     convenience init(axis: NSLayoutConstraint.Axis) {
         self.init()
+        
         self.axis = axis
     }
 }

@@ -14,11 +14,11 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
 
     private var taskStackView = TaskUIStackView(axis: .vertical)
     private var taskTitleLabel = TaskUILabel(text: "Task Description")
-    private var taskTitleTextField = UITextField()
+    private var taskTitleTextField = TaskUITextField(placeholder: "Enter a New Task")
     
     private var descriptionStackView = TaskUIStackView(axis: .vertical)
     private var taskDescriptionLabel = TaskUILabel(text: "Optional Task Description")
-    private var taskDescriptionTextField = UITextField()
+    private var taskDescriptionTextField = TaskUITextField(placeholder: "Enter a New Task's Description")
 
     private var categoryStackView = TaskUIStackView(axis: .vertical)
     private var categoryTaskLabel = TaskUILabel(text: "Task Category")
@@ -31,20 +31,26 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     private var addTaskBottomMarginConstraint = NSLayoutConstraint()
          
     // MARK: - Methods - View Lifecycle
+    private func constraintViewToMargins(_ viewToConstraint: UIView) {
+        guard let margins = viewToConstraint.superview?.layoutMarginsGuide else {
+            fatalError("Could not get margins of a superView")
+        }
+        
+        NSLayoutConstraint.activate([
+            viewToConstraint.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            viewToConstraint.topAnchor.constraint(equalTo: margins.topAnchor),
+            viewToConstraint.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            viewToConstraint.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+        ])
+    }
+    
     override func loadView() {
         view = UIView()
+        view.backgroundColor = .systemBackground
 
         // Create the Main StackView and add constraints
         view.addSubview(mainStackView)
-        
-        let margins = view.layoutMarginsGuide
-        
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            // mainStackView.topAnchor.constraint(equalTo: margins.topAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
-        ])
+        constraintViewToMargins(mainStackView)
         
         // Add substacks
         mainStackView.addArrangedSubview(categoryStackView)
@@ -55,7 +61,6 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         categoryStackView.addArrangedSubview(categoryTaskLabel)
         categoryStackView.addArrangedSubview(categorySegmentedControl)
         initSegmentedControl(categorySegmentedControl, with: Category.rawValues())
-        
         deadlineStackView.addArrangedSubview(deadlineLabel)
         deadlineStackView.addArrangedSubview(deadlineSegmentedControl)
         initSegmentedControl(deadlineSegmentedControl, with: ListType.rawValues())
@@ -76,7 +81,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // taskTitleTextField.delegate = self
+        taskTitleTextField.delegate = self
         
         // Adds gesture recognizer to dismiss a keyboard when there is a tap outside of an edited field
         tapOutsideTextFieldGestureRecognizer()

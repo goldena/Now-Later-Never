@@ -17,7 +17,7 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
     // MARK: - Class Init
     init(listType: ListType) {
         self.listType = listType
-        
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -35,10 +35,7 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         super.viewDidLoad()
         
         taskTableView.rowHeight = 100
-        
-        //taskTableView.rowHeight = UITableView.automaticDimension
-        //taskTableView.estimatedRowHeight = 100
-        
+
         taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: Const.TaskReusableCellID)
         taskTableView.dataSource = self
         taskTableView.delegate = self
@@ -78,9 +75,7 @@ extension ListViewController: UITableViewDataSource {
         cell.taskTitleLabel.text = task.title
 
         if task.done {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
+            cell.toggleCheckmark()
         }
 
         // Show or hide task description depending on if it is nil or not
