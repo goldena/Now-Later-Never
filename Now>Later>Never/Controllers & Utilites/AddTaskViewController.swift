@@ -135,6 +135,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         )
     }
     
+    // MARK: - Keyboard helper functions
     @objc private func keyboardWillShow(notification: Notification) {
         guard let info = notification.userInfo,
               let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -149,7 +150,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         }
     }
     
-    @objc func keyboardWillHide(notification: Notification) {
+    @objc private func keyboardWillHide(notification: Notification) {
         topMarginConstraint.isActive = false
         bottomMarginConstraint.constant = systemMinimumLayoutMargins.bottom
         
@@ -159,7 +160,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     }
     
     // Dismissed keyboard after tapping outside of an edited field
-    func tapOutsideTextFieldGestureRecognizer() {
+    private func tapOutsideTextFieldGestureRecognizer() {
         let tapOutsideTextField = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         
         tapOutsideTextField.cancelsTouchesInView = false
@@ -177,7 +178,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         segmentedControl.selectedSegmentIndex = 0
     }
     
-    func getSegmentName(segmentedControl: UISegmentedControl) -> String {
+    private func getSegmentName(segmentedControl: UISegmentedControl) -> String {
         let selectedIndex = segmentedControl.selectedSegmentIndex
         
         guard selectedIndex != UISegmentedControl.noSegment,
@@ -233,6 +234,7 @@ extension UIViewController: UITextFieldDelegate {
     // Dismiss keyboard after pressing Return key
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
         return true
     }
 }

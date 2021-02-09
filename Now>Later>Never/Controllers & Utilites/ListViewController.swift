@@ -8,7 +8,7 @@
 import UIKit
 
 class ListViewController: UIViewController, PersistentStorageCRUD {
-        
+    
     // MARK: - Properties
     private var listType: ListType
     private var tasks: [Task] = []
@@ -17,10 +17,10 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
     // MARK: - Class Init
     init(listType: ListType) {
         self.listType = listType
-
+        
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -35,7 +35,7 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         super.viewDidLoad()
         
         taskTableView.rowHeight = 100
-
+        
         taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: Const.TaskReusableCellID)
         taskTableView.dataSource = self
         taskTableView.delegate = self
@@ -48,7 +48,7 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
 
 // MARK: - Extensions
 extension ListViewController: PersistentStorageListDelegate {
-
+    
     func didUpdateList() {
         tasks = readTasks(from: listType)
         taskTableView.reloadData()
@@ -69,15 +69,15 @@ extension ListViewController: UITableViewDataSource {
         ) as? TaskTableViewCell else {
             fatalError("Could not downcast a UITableViewCell to the Custom Cell")
         }
-
+        
         let task = tasks[indexPath.row]
         
         cell.taskTitleLabel.text = task.title
-
+        
         if task.done {
             cell.toggleCheckmark()
         }
-
+        
         // Show or hide task description depending on if it is nil or not
         if task.description != nil {
             cell.taskDescriptionLabel.text = task.description
@@ -85,7 +85,7 @@ extension ListViewController: UITableViewDataSource {
         } else {
             cell.taskDescriptionLabel.isHidden = true
         }
-            
+        
         return cell
     }
 }
@@ -94,29 +94,78 @@ extension ListViewController: UITableViewDelegate {
     
     // Leading swipe action
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var action: UIContextualAction
         
-        let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
+        switch listType {
+        case .Today:
+            let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
+            
+            action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Later)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
+            
+            action.image = UIImage(systemName: "arrow.right", withConfiguration: Const.LargeSFSymbol)
+            action.backgroundColor = .systemGreen
+
+        case .Later:
+            let title = NSLocalizedString("Today", comment: "Move the task to the Today Tab")
+            
+            action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+                
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
+ 
+            action.image = UIImage(systemName: "list.bullet", withConfiguration: Const.LargeSFSymbol)
+            action.backgroundColor = .systemGreen
+
+        case .Done:
+            let title = NSLocalizedString("Restore", comment: "Move the task to the Today Tab")
+            
+            action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+                
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
+ 
+            action.image = UIImage(systemName: "list.bullet", withConfiguration: Const.LargeSFSymbol)
+            action.backgroundColor = .systemGreen
+
+        case .Never:
+            let title = NSLocalizedString("Restore", comment: "Move the task to the Today Tab")
+            
+            action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
+                
+                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+            })
+            
+            action.image = UIImage(systemName: "list.bullet", withConfiguration: Const.LargeSFSymbol)
+            action.backgroundColor = .systemGreen
+        }
         
-        let action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
-            self.moveTask(from: self.listType, at: indexPath.row, to: .Later)
-            self.tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        })
-
-        action.image = UIImage(systemName: "arrow.right", withConfiguration: Const.LargeSFSymbol)
-        action.backgroundColor = .systemGreen
-
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
-
+    
     // Trailing swipe action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var action: UIContextualAction
         
+        switch listType {
+        case .Today:
         let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
         
-        let action = UIContextualAction(
+        action = UIContextualAction(
             style: .destructive,
             title: title,
             handler: { (action, view,completionHandler)
@@ -129,16 +178,59 @@ extension ListViewController: UITableViewDelegate {
         
         action.image = UIImage(systemName: "xmark", withConfiguration: Const.LargeSFSymbol)
         action.backgroundColor = .systemRed
+        
+        case .Later:
+        let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
+        
+        action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+            
+            self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+            self.tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
+        
+        //action.image = UIImage(named: "heart")
+        action.backgroundColor = .systemRed
+                
+        case .Done:
+        let title = NSLocalizedString("Delete", comment: "Delete permanently")
 
+        action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+            
+            self.deleteTask(from: self.listType, at: indexPath.row)
+            self.tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        })
+        
+        case .Never:
+        let title = NSLocalizedString("Delete", comment: "Delete Permanently")
+
+            action = UIContextualAction(
+            style: .destructive,
+            title: title,
+            handler: { (action, view, completionHandler) in
+                self.deleteTask(from: self.listType, at: indexPath.row)
+                self.tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                completionHandler(true)
+        })
+
+        //action.image = UIImage(named: "heart")
+        action.backgroundColor = .systemRed
+        }
+        
+        
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else {
             fatalError("Invalid cell selection")
         }
-
+        
         // Deselect row after a delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
             // Check is selected row still exists
