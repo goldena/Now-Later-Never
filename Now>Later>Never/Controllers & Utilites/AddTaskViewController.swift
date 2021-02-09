@@ -10,7 +10,7 @@ import UIKit
 class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 24)
+    private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .equalCentering, spacing: 24)
 
     private var taskStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
     private var taskTitleLabel = TaskUILabel(text: "Task Title")
@@ -100,6 +100,11 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         
         buttonsStackView.addArrangedSubview(saveButton)
         buttonsStackView.addArrangedSubview(cancelButton)
+        
+        NSLayoutConstraint.activate([
+            saveButton.heightAnchor.constraint(equalToConstant: 50),
+            cancelButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
         saveButton.addTarget(self, action: #selector(addTaskButtonPressed(_:)), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed(_:)), for: .touchUpInside)
