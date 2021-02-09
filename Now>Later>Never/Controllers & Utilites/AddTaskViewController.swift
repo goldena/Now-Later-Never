@@ -10,7 +10,7 @@ import UIKit
 class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     
     // MARK: - Properties
-    private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 50)
+    private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 24)
 
     private var taskStackView = TaskUIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8)
     private var taskTitleLabel = TaskUILabel(text: "Task Title")
@@ -28,11 +28,12 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     private var deadlineLabel = TaskUILabel(text: "Task Deadline")
     private var deadlineSegmentedControl = UISegmentedControl()
     
-    private var buttonsStackView = TaskUIStackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
+    private var buttonsStackView = TaskUIStackView(axis: .horizontal, distribution: .fillEqually, spacing: 24)
     private var saveButton = TaskUIButton(title: "Add Task")
     private var cancelButton = TaskUIButton(title: "Cancel")
     
-    private var addTaskBottomMarginConstraint = NSLayoutConstraint()
+    private var topMarginConstraint = NSLayoutConstraint()
+    private var bottomMarginConstraint = NSLayoutConstraint()
          
     // MARK: - Methods - View Lifecycle
     private func constraintViewToMargins(_ viewToConstraint: UIView) {
@@ -53,23 +54,12 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
                 equalTo: margins.trailingAnchor,
                 constant: systemMinimumLayoutMargins.trailing
             ),
-            viewToConstraint.bottomAnchor.constraint(
-                equalTo: margins.bottomAnchor,
-                constant: systemMinimumLayoutMargins.bottom
-            ),
+//            viewToConstraint.bottomAnchor.constraint(
+//                equalTo: margins.bottomAnchor,
+//                constant: systemMinimumLayoutMargins.bottom
+//            ),
         ])
-        
-//        if viewToConstraint is TaskUIStackView {
-//            categoryStackView.layoutMargins = UIEdgeInsets(
-//                top: systemMinimumLayoutMargins.top,
-//                left: systemMinimumLayoutMargins.leading,
-//                bottom: systemMinimumLayoutMargins.bottom,
-//                right: systemMinimumLayoutMargins.trailing
-//            )
-//
-//            categoryStackView.isLayoutMarginsRelativeArrangement = true
-
-    }
+   }
     
     override func loadView() {
         view = UIView()
@@ -79,12 +69,20 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         view.addSubview(mainStackView)
         constraintViewToMargins(mainStackView)
         
-        // Add substacks
+        // Add substacks to the main stack
         mainStackView.addArrangedSubview(categoryStackView)
         mainStackView.addArrangedSubview(deadlineStackView)
         mainStackView.addArrangedSubview(taskStackView)
         mainStackView.addArrangedSubview(descriptionStackView)
         mainStackView.addArrangedSubview(buttonsStackView)
+            
+        // Init and activate the top and the bottom anchor constraints for moving items
+        // higher, so they won't be blocked by the appearing keyboard
+        topMarginConstraint = mainStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: systemMinimumLayoutMargins.top)
+        topMarginConstraint.isActive = false
+        
+        bottomMarginConstraint = mainStackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: systemMinimumLayoutMargins.bottom)
+        bottomMarginConstraint.isActive = true
         
         categoryStackView.addArrangedSubview(categoryTaskLabel)
         categoryStackView.addArrangedSubview(categorySegmentedControl)
@@ -105,21 +103,16 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         
         saveButton.addTarget(self, action: #selector(addTaskButtonPressed(_:)), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed(_:)), for: .touchUpInside)
-                
-//        NSLayoutConstraint.activate([
-//            taskDescriptionLabel.trailingAnchor.constraint(equalTo: mainStackMargins.trailingAnchor)
-//
-//            taskDescriptionLabel.centerXAnchor.constraint(equalTo: mainStackMargins.centerXAnchor)
-//        ])
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         taskTitleTextField.delegate = self
+        taskDescriptionTextField.delegate = self
         
         // Adds gesture recognizer to dismiss a keyboard when there is a tap outside of an edited field
-        tapOutsideTextFieldGestureRecognizer()
+        // tapOutsideTextFieldGestureRecognizer()
         
         // Adds Observers to show keyboard without blocking any other UI elements
         NotificationCenter.default.addObserver(
@@ -128,6 +121,7 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide(notification:)),
@@ -136,13 +130,14 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         )
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
         guard let info = notification.userInfo,
               let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        
-        self.addTaskBottomMarginConstraint.constant = keyboardFrame.cgRectValue.height
+
+        topMarginConstraint.isActive = true
+        bottomMarginConstraint.constant = -keyboardFrame.cgRectValue.height
         
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
@@ -150,7 +145,8 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        self.addTaskBottomMarginConstraint.constant = 0
+        topMarginConstraint.isActive = false
+        bottomMarginConstraint.constant = systemMinimumLayoutMargins.bottom
         
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
@@ -207,11 +203,10 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
         
         let taskDescription = taskDescriptionTextField.text
         // If a Task is added to the Done listType, then mark as done.
-        let done = listType == .Done
+        let done = (listType == .Done)
         
-        #warning("Temrorary impementation")
         let task = Task(
-            title: taskTitle + category.rawValue,
+            title: taskTitle,
             description: taskDescription,
             category: category,
             date: Date(),
