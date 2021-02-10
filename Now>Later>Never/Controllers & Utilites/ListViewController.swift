@@ -34,15 +34,28 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configTaskTableView()
+        
+        tasks = readTasks(from: listType)        
+    }
+    
+    private func configTaskTableView() {
         taskTableView.rowHeight = 100
         
         taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: Const.TaskReusableCellID)
         taskTableView.dataSource = self
         taskTableView.delegate = self
         
-        persistentStorage.todayListDelegate = self
-        
-        tasks = readTasks(from: listType)        
+        switch listType {
+        case .Today:
+            persistentStorage.todayListDelegate = self
+        case .Later:
+            persistentStorage.laterListDelegate = self
+        case .Done:
+            persistentStorage.doneListDelegate = self
+        case .Never:
+            persistentStorage.neverListDelegate = self
+        }
     }
 }
 
@@ -109,7 +122,7 @@ extension ListViewController: UITableViewDelegate {
             
             action.image = UIImage(systemName: "arrow.right", withConfiguration: Const.LargeSFSymbol)
             action.backgroundColor = .systemGreen
-
+            
         case .Later:
             let title = NSLocalizedString("Today", comment: "Move the task to the Today Tab")
             
@@ -120,10 +133,10 @@ extension ListViewController: UITableViewDelegate {
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
             })
- 
+            
             action.image = UIImage(systemName: "list.bullet", withConfiguration: Const.LargeSFSymbol)
             action.backgroundColor = .systemGreen
-
+            
         case .Done:
             let title = NSLocalizedString("Restore", comment: "Move the task to the Today Tab")
             
@@ -134,10 +147,10 @@ extension ListViewController: UITableViewDelegate {
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
             })
- 
+            
             action.image = UIImage(systemName: "list.bullet", withConfiguration: Const.LargeSFSymbol)
             action.backgroundColor = .systemGreen
-
+            
         case .Never:
             let title = NSLocalizedString("Restore", comment: "Move the task to the Today Tab")
             
@@ -163,64 +176,63 @@ extension ListViewController: UITableViewDelegate {
         
         switch listType {
         case .Today:
-        let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
-        
-        action = UIContextualAction(
-            style: .destructive,
-            title: title,
-            handler: { (action, view,completionHandler)
-                in
+            let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
+            
+            action = UIContextualAction(
+                style: .destructive,
+                title: title,
+                handler: { (action, view, completionHandler)
+                    in
+                    self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+                    self.tasks.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    completionHandler(true)
+                })
+            
+            action.image = UIImage(systemName: "xmark", withConfiguration: Const.LargeSFSymbol)
+            action.backgroundColor = .systemRed
+            
+        case .Later:
+            let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
+            
+            action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+                
                 self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
             })
-        
-        action.image = UIImage(systemName: "xmark", withConfiguration: Const.LargeSFSymbol)
-        action.backgroundColor = .systemRed
-        
-        case .Later:
-        let title = NSLocalizedString("Never", comment: "Move the Task to the Never Tab")
-        
-        action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
             
-            self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
-            self.tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        })
-        
-        //action.image = UIImage(named: "heart")
-        action.backgroundColor = .systemRed
-                
+            //action.image = UIImage(named: "heart")
+            action.backgroundColor = .systemRed
+            
         case .Done:
-        let title = NSLocalizedString("Delete", comment: "Delete permanently")
-
-        action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+            let title = NSLocalizedString("Delete", comment: "Delete permanently")
             
-            self.deleteTask(from: self.listType, at: indexPath.row)
-            self.tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        })
-        
-        case .Never:
-        let title = NSLocalizedString("Delete", comment: "Delete Permanently")
-
-            action = UIContextualAction(
-            style: .destructive,
-            title: title,
-            handler: { (action, view, completionHandler) in
+            action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
+                
                 self.deleteTask(from: self.listType, at: indexPath.row)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
-        })
-
-        //action.image = UIImage(named: "heart")
-        action.backgroundColor = .systemRed
+            })
+            
+        case .Never:
+            let title = NSLocalizedString("Delete", comment: "Delete Permanently")
+            
+            action = UIContextualAction(
+                style: .destructive,
+                title: title,
+                handler: { (action, view, completionHandler) in
+                    self.deleteTask(from: self.listType, at: indexPath.row)
+                    self.tasks.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    completionHandler(true)
+                })
+            
+            //action.image = UIImage(named: "heart")
+            action.backgroundColor = .systemRed
         }
-        
         
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
