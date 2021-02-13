@@ -4,10 +4,11 @@
         <attribute name="category" attributeType="String"/>
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="done" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="listType" attributeType="String"/>
         <attribute name="optionalDescription" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="ManagedTask" positionX="-9" positionY="37" width="128" height="118"/>
+        <element name="ManagedTask" positionX="-9" positionY="37" width="128" height="133"/>
     </elements>
 </model>

@@ -36,9 +36,9 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         
         configTaskTableView()
         
-        #warning("Remove later")
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        print(dataFilePath)
+//        #warning("Remove later")
+//        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        print(dataFilePath)
         
         tasks = readTasks(from: listType)        
     }

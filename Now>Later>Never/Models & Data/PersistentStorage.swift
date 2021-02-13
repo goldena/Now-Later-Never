@@ -54,13 +54,12 @@ final class PersistentStorage {
         let managedTask = ManagedTask(context: context)
         
         managedTask.title = task.title
+        managedTask.listType = list.rawValue
         managedTask.category = task.category.rawValue
         managedTask.optionalDescription = task.optionalDescription
         managedTask.date = task.date
         managedTask.done = task.done
 
-        print(managedTask)
-                    
         do {
             try context.save()
         } catch {
@@ -69,19 +68,15 @@ final class PersistentStorage {
         
         switch list {
         case .Today:
-            todayList.append(task)
             todayListDelegate?.didUpdateList()
             
         case .Later:
-            laterList.append(task)
             laterListDelegate?.didUpdateList()
             
         case .Never:
-            neverList.append(task)
             neverListDelegate?.didUpdateList()
             
         case .Done:
-            doneList.append(task)
             doneListDelegate?.didUpdateList()
         }
                 
@@ -108,7 +103,18 @@ final class PersistentStorage {
                 done: managedTask.done
             )
             
-            todayList.append(task)
+            switch ListType.init(rawValue: managedTask.listType!) {
+            case .Today:
+                todayList.append(task)
+            case .Later:
+                laterList.append(task)
+            case .Done:
+                doneList.append(task)
+            case .Never:
+                neverList.append(task)
+            default:
+                fatalError("Unknown list type encountered.")
+            }
         }
         
         switch list {
