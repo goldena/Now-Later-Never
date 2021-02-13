@@ -206,18 +206,21 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             showAlert(title: "No title entered", message: "Please add a title to the Task")
             return
         }
-        
-        let taskDescription = taskDescriptionTextField.text
+
         // If a Task is added to the Done listType, then mark as done.
         let done = (listType == .Done)
         
-        let task = Task(
+        var task = Task(
             title: taskTitle,
-            description: taskDescription,
             category: category,
             date: Date(),
             done: done
         )
+        
+        if taskDescriptionTextField.text != "" {
+            task.optionalDescription = taskDescriptionTextField.text
+        }
+                
         addTask(task, to: listType)
         
         self.dismiss(animated: true, completion: nil)

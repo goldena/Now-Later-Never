@@ -5,10 +5,12 @@
 //  Created by Denis Goloborodko on 3.01.21.
 //
 
-import Foundation
-import CloudKit
+import UIKit
+// import CloudKit
+import CoreData
 
 // MARK: - Persistent Storage - Singleton
+
 var persistentStorage = PersistentStorage()
 
 // MARK: - Enums - Errors
@@ -30,6 +32,9 @@ protocol PersistentStorageListDelegate {
 }
 
 final class PersistentStorage {
+    // Core Data Persistent Storage
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     // MARK: - Properties - Delegates
     var todayListDelegate: PersistentStorageListDelegate?
     var laterListDelegate: PersistentStorageListDelegate?
@@ -37,60 +42,31 @@ final class PersistentStorage {
     var neverListDelegate: PersistentStorageListDelegate?
     
     // MARK: - Properties - Temporary data stub
-    private var todayList =
-        [Task(title: "test1", description: "test1", category: .Personal, date: Date(), done: false),
-         Task(title: "test2", category: .Personal, date: Date(), done: false),
-         Task(title: "test3", category: .Personal, date: Date(), done: false),
-         Task(title: "test4", category: .Personal, date: Date(), done: false),
-         Task(title: "test5", category: .Personal, date: Date(), done: false),
-         Task(title: "test6", category: .Personal, date: Date(), done: false),
-         Task(title: "test7", category: .Personal, date: Date(), done: false),
-         Task(title: "test8", category: .Personal, date: Date(), done: false),
-         Task(title: "test9", category: .Personal, date: Date(), done: false),
-         Task(title: "test10", category: .Personal, date: Date(), done: false),
-        ]
-    
-    private var laterList =
-        [Task(title: "test11", category: .Personal, date: Date(), done: false),
-         Task(title: "test12", category: .Personal, date: Date(), done: false),
-         Task(title: "test13", category: .Personal, date: Date(), done: false),
-         Task(title: "test14", category: .Personal, date: Date(), done: false),
-         Task(title: "test15", category: .Personal, date: Date(), done: false),
-         Task(title: "test16", category: .Personal, date: Date(), done: false),
-         Task(title: "test17", category: .Personal, date: Date(), done: false),
-         Task(title: "test18", category: .Personal, date: Date(), done: false),
-         Task(title: "test19", category: .Personal, date: Date(), done: false),
-         Task(title: "test20", category: .Personal, date: Date(), done: false),
-        ]
-
-    private var doneList =
-        [Task(title: "test21", category: .Personal, date: Date(), done: false),
-         Task(title: "test22", category: .Personal, date: Date(), done: false),
-         Task(title: "test23", category: .Personal, date: Date(), done: false),
-         Task(title: "test24", category: .Personal, date: Date(), done: false),
-         Task(title: "test25", category: .Personal, date: Date(), done: false),
-         Task(title: "test26", category: .Personal, date: Date(), done: false),
-         Task(title: "test27", category: .Personal, date: Date(), done: false),
-         Task(title: "test28", category: .Personal, date: Date(), done: false),
-         Task(title: "test29", category: .Personal, date: Date(), done: false),
-         Task(title: "test30", category: .Personal, date: Date(), done: false),
-        ]
-
-    private var neverList =
-        [Task(title: "test31", category: .Personal, date: Date(), done: false),
-         Task(title: "test32", category: .Personal, date: Date(), done: false),
-         Task(title: "test33", category: .Personal, date: Date(), done: false),
-         Task(title: "test34", category: .Personal, date: Date(), done: false),
-         Task(title: "test35", category: .Personal, date: Date(), done: false),
-         Task(title: "test36", category: .Personal, date: Date(), done: false),
-         Task(title: "test37", category: .Personal, date: Date(), done: false),
-         Task(title: "test38", category: .Personal, date: Date(), done: false),
-         Task(title: "test39", category: .Personal, date: Date(), done: false),
-         Task(title: "test40", category: .Personal, date: Date(), done: false),
-        ]
+        
+    private var todayList: [Task] = []
+    private var laterList: [Task] = []
+    private var doneList: [Task] = []
+    private var neverList: [Task] = []
 
     // MARK: - Methods
     func addTask(_ task: Task, to list: ListType) -> Result<Bool, StorageErrors> {
+
+        let managedTask = ManagedTask(context: context)
+        
+        managedTask.title = task.title
+        managedTask.category = task.category.rawValue
+        managedTask.optionalDescription = task.optionalDescription
+        managedTask.date = task.date
+        managedTask.done = task.done
+
+        print(managedTask)
+                    
+        do {
+            try context.save()
+        } catch {
+            print("Error while saving the items \(error)")
+        }
+        
         switch list {
         case .Today:
             todayList.append(task)
@@ -108,11 +84,33 @@ final class PersistentStorage {
             doneList.append(task)
             doneListDelegate?.didUpdateList()
         }
-        
+                
         return .success(true)
     }
     
     func readTasks(from list: ListType) -> Result<[Task], StorageErrors> {
+        let request: NSFetchRequest<ManagedTask> = ManagedTask.fetchRequest()
+        var managedTasks: [ManagedTask]
+        
+        do {
+            managedTasks = try context.fetch(request)
+            print(managedTasks)
+        } catch {
+            fatalError("Error fetching data from the context \(error)")
+        }
+        
+        for managedTask in managedTasks {
+            let task = Task(
+                title: managedTask.title!,
+                optionalDescription: managedTask.description,
+                category: Category.init(rawValue: managedTask.category!)!,
+                date: managedTask.date!,
+                done: managedTask.done
+            )
+            
+            todayList.append(task)
+        }
+        
         switch list {
         case .Today:
             return .success(todayList)

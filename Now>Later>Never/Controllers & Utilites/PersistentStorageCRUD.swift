@@ -36,7 +36,6 @@ extension PersistentStorageCRUD {
     
     func readTasks(from list: ListType) -> [Task] {
         switch persistentStorage.readTasks(from: list) {
-        
         case .success(let tasks):
             return tasks
             
@@ -48,7 +47,6 @@ extension PersistentStorageCRUD {
     
     func updateTask(_ task: Task, at index: Int, on list: ListType) {
         switch persistentStorage.updateTask(on: list, at: index, with: task) {
-        
         case .success(_):
             return
             
@@ -59,7 +57,6 @@ extension PersistentStorageCRUD {
     
     func deleteTask(from list: ListType, at index: Int) -> Task? {
         switch persistentStorage.deleteTask(at: index, from: list) {
-        
         case .success(let task):
             return task
             

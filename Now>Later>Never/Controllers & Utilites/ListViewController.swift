@@ -36,6 +36,10 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         
         configTaskTableView()
         
+        #warning("Remove later")
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(dataFilePath)
+        
         tasks = readTasks(from: listType)        
     }
     
@@ -49,10 +53,13 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         switch listType {
         case .Today:
             persistentStorage.todayListDelegate = self
+            
         case .Later:
             persistentStorage.laterListDelegate = self
+            
         case .Done:
             persistentStorage.doneListDelegate = self
+            
         case .Never:
             persistentStorage.neverListDelegate = self
         }
@@ -92,8 +99,8 @@ extension ListViewController: UITableViewDataSource {
         }
         
         // Show or hide task description depending on if it is nil or not
-        if task.description != nil {
-            cell.taskDescriptionLabel.text = task.description
+        if task.optionalDescription != nil {
+            cell.taskDescriptionLabel.text = task.optionalDescription
             cell.taskDescriptionLabel.isHidden = false
         } else {
             cell.taskDescriptionLabel.isHidden = true
