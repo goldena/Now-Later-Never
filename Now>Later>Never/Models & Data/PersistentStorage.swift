@@ -97,7 +97,7 @@ final class PersistentStorage {
         for managedTask in managedTasks {
             let task = Task(
                 title: managedTask.title!,
-                optionalDescription: managedTask.description,
+                optionalDescription: managedTask.optionalDescription,
                 category: Category.init(rawValue: managedTask.category!)!,
                 date: managedTask.date!,
                 done: managedTask.done
