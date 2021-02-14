@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddTaskViewController: UIViewController, PersistentStorageCRUD {
+class AddTaskViewController: UIViewController, PersistentStorageInterface {
     
     // MARK: - Properties
     private var mainStackView = TaskUIStackView(axis: .vertical, distribution: .equalCentering, spacing: 24)
@@ -214,14 +214,15 @@ class AddTaskViewController: UIViewController, PersistentStorageCRUD {
             title: taskTitle,
             category: category,
             date: Date(),
-            done: done
+            done: done,
+            id: nil
         )
         
         if taskDescriptionTextField.text != "" {
             task.optionalDescription = taskDescriptionTextField.text
         }
                 
-        addTask(task, to: listType)
+        let _ = addTask(task, to: listType)
         
         self.dismiss(animated: true, completion: nil)
     }

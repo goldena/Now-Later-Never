@@ -26,6 +26,7 @@ struct Task {
     var category: Category
     var date: Date
     var done: Bool
+    var id: ObjectIdentifier?
 }
 
 // MARK: - Protocol and Extension for AllCasesRawRepresentable

@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ListViewController: UIViewController, PersistentStorageCRUD {
+class ListViewController: UIViewController, PersistentStorageInterface {
+    
+    #warning("Solve the issue with constraints")
+    func UIViewAlertForUnsatisfiableConstraints() {
+    }
     
     // MARK: - Properties
     private var listType: ListType
@@ -52,16 +56,16 @@ class ListViewController: UIViewController, PersistentStorageCRUD {
         
         switch listType {
         case .Today:
-            persistentStorage.todayListDelegate = self
+            PersistentStorage.todayListDelegate = self
             
         case .Later:
-            persistentStorage.laterListDelegate = self
+            PersistentStorage.laterListDelegate = self
             
         case .Done:
-            persistentStorage.doneListDelegate = self
+            PersistentStorage.doneListDelegate = self
             
         case .Never:
-            persistentStorage.neverListDelegate = self
+            PersistentStorage.neverListDelegate = self
         }
     }
 }
@@ -121,7 +125,7 @@ extension ListViewController: UITableViewDelegate {
             let title = NSLocalizedString("Later", comment: "Move the task to the Later Tab")
             
             action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
-                self.moveTask(from: self.listType, at: indexPath.row, to: .Later)
+                self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Later)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -135,7 +139,7 @@ extension ListViewController: UITableViewDelegate {
             
             action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
                 
-                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Today)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -149,7 +153,7 @@ extension ListViewController: UITableViewDelegate {
             
             action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
                 
-                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Today)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -163,7 +167,7 @@ extension ListViewController: UITableViewDelegate {
             
             action = UIContextualAction(style: .normal, title: title, handler: { (action, view, completionHandler) in
                 
-                self.moveTask(from: self.listType, at: indexPath.row, to: .Today)
+                self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Today)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -190,7 +194,7 @@ extension ListViewController: UITableViewDelegate {
                 title: title,
                 handler: { (action, view, completionHandler)
                     in
-                    self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+                    self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Never)
                     self.tasks.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     completionHandler(true)
@@ -204,7 +208,7 @@ extension ListViewController: UITableViewDelegate {
             
             action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
                 
-                self.moveTask(from: self.listType, at: indexPath.row, to: .Never)
+                self.moveTask(withID: self.tasks[indexPath.row].id!, to: .Never)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -218,7 +222,7 @@ extension ListViewController: UITableViewDelegate {
             
             action = UIContextualAction(style: .destructive, title: title, handler: { (action, view, completionHandler) in
                 
-                self.deleteTask(from: self.listType, at: indexPath.row)
+                self.deleteTask(from: self.listType, withID: self.tasks[indexPath.row].id!)
                 self.tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 completionHandler(true)
@@ -231,7 +235,7 @@ extension ListViewController: UITableViewDelegate {
                 style: .destructive,
                 title: title,
                 handler: { (action, view, completionHandler) in
-                    self.deleteTask(from: self.listType, at: indexPath.row)
+                    self.deleteTask(from: self.listType, withID: self.tasks[indexPath.row].id!)
                     self.tasks.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     completionHandler(true)

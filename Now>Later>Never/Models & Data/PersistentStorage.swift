@@ -6,14 +6,10 @@
 //
 
 import UIKit
-// import CloudKit
 import CoreData
 
-// MARK: - Persistent Storage - Singleton
-
-var persistentStorage = PersistentStorage()
-
 // MARK: - Enums - Errors
+
 enum NetworkErrors: Error {
     case NoConnectionError
     case AuthentificationError
@@ -27,29 +23,27 @@ enum StorageErrors: Error {
 }
 
 // MARK: - Protocols - Delegation
+
 protocol PersistentStorageListDelegate {
     func didUpdateList()
 }
 
 final class PersistentStorage {
     // Core Data Persistent Storage
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    static private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    static private var managedTaskArray: [ManagedTask] = []
     
     // MARK: - Properties - Delegates
-    var todayListDelegate: PersistentStorageListDelegate?
-    var laterListDelegate: PersistentStorageListDelegate?
-    var doneListDelegate: PersistentStorageListDelegate?
-    var neverListDelegate: PersistentStorageListDelegate?
     
-    // MARK: - Properties - Temporary data stub
-        
-    private var todayList: [Task] = []
-    private var laterList: [Task] = []
-    private var doneList: [Task] = []
-    private var neverList: [Task] = []
-
+    static var todayListDelegate: PersistentStorageListDelegate?
+    static var laterListDelegate: PersistentStorageListDelegate?
+    static var doneListDelegate: PersistentStorageListDelegate?
+    static var neverListDelegate: PersistentStorageListDelegate?
+            
     // MARK: - Methods
-    func addTask(_ task: Task, to list: ListType) -> Result<Bool, StorageErrors> {
+    
+    static func addTask(_ task: Task, to list: ListType) -> Result<ObjectIdentifier, StorageErrors> {
 
         let managedTask = ManagedTask(context: context)
         
@@ -59,13 +53,99 @@ final class PersistentStorage {
         managedTask.optionalDescription = task.optionalDescription
         managedTask.date = task.date
         managedTask.done = task.done
-
+        
+        saveContext()
+        updateListUsingDelegate(list)
+        
+        return .success(managedTask.id)
+    }
+    
+    static func readTasks(from list: ListType) -> Result<[Task], StorageErrors> {
+        let request: NSFetchRequest<ManagedTask> = ManagedTask.fetchRequest()
+        var taskArray: [Task] = []
+        
         do {
-            try context.save()
+            managedTaskArray = try context.fetch(request)
         } catch {
-            print("Error while saving the items \(error)")
+            fatalError("Error fetching data from the context \(error)")
         }
         
+        let filteredManagedTaskArray = managedTaskArray.filter { (managedTask) -> Bool in
+            ListType.init(rawValue: managedTask.listType!) == list
+        }
+        
+        #warning("Refactor")
+        for managedTask in filteredManagedTaskArray {
+            let task = Task(
+                title: managedTask.title!,
+                optionalDescription: managedTask.optionalDescription,
+                category: Category.init(rawValue: managedTask.category!)!,
+                date: managedTask.date!,
+                done: managedTask.done,
+                id: managedTask.id
+            )
+            
+            taskArray.append(task)
+        }
+
+        return .success(taskArray)
+    }
+
+    static func updateTask(on list: ListType, withID id: ObjectIdentifier, with task: Task) -> Result<ObjectIdentifier, StorageErrors> {
+
+        guard let index = managedTaskArray.firstIndex(where: { (managedTask) -> Bool in
+            managedTask.id == id
+        }) else {
+            fatalError("Could not find an object with the specified ID")
+        }
+
+        let updatedManagedTask = managedTaskArray[index]
+        
+        updatedManagedTask.title = task.title
+        updatedManagedTask.listType = list.rawValue
+        updatedManagedTask.category = task.category.rawValue
+        updatedManagedTask.optionalDescription = task.optionalDescription
+        // updatedManagedTask.date = task.date
+        updatedManagedTask.done = task.done
+
+        saveContext()
+        
+        // updateListUsingDelegate(list)
+        
+        return .success(id)
+        
+    }
+    
+    static func deleteTask(withID id: ObjectIdentifier, from list: ListType) -> Result<ObjectIdentifier, StorageErrors> {
+
+        guard let index = managedTaskArray.firstIndex(where: { (managedTask) -> Bool in
+            managedTask.id == id
+        }) else {
+            fatalError("Could not find an object with the specified ID")
+        }
+        
+        context.delete(managedTaskArray[index])
+        managedTaskArray.remove(at: index)
+        saveContext()
+ 
+        return .success(id)
+    }
+    
+    static func moveTask(withID id: ObjectIdentifier, to toList: ListType) -> Result<ObjectIdentifier, StorageErrors> {
+        guard let index = managedTaskArray.firstIndex(where: { (managedTask) -> Bool in
+            managedTask.id == id
+        }) else {
+            fatalError("Could not find an object with the specified ID")
+        }
+
+        managedTaskArray[index].listType = toList.rawValue
+        saveContext()
+        updateListUsingDelegate(toList)
+        
+        return .success(id)
+    }
+    
+    private static func updateListUsingDelegate(_ list: ListType) {
         switch list {
         case .Today:
             todayListDelegate?.didUpdateList()
@@ -79,128 +159,13 @@ final class PersistentStorage {
         case .Done:
             doneListDelegate?.didUpdateList()
         }
-                
-        return .success(true)
     }
     
-    func readTasks(from list: ListType) -> Result<[Task], StorageErrors> {
-        let request: NSFetchRequest<ManagedTask> = ManagedTask.fetchRequest()
-        var managedTasks: [ManagedTask]
-        
+    private static func saveContext() {
         do {
-            managedTasks = try context.fetch(request)
-            print(managedTasks)
+            try context.save()
         } catch {
-            fatalError("Error fetching data from the context \(error)")
-        }
-        
-        for managedTask in managedTasks {
-            let task = Task(
-                title: managedTask.title!,
-                optionalDescription: managedTask.optionalDescription,
-                category: Category.init(rawValue: managedTask.category!)!,
-                date: managedTask.date!,
-                done: managedTask.done
-            )
-            
-            switch ListType.init(rawValue: managedTask.listType!) {
-            case .Today:
-                todayList.append(task)
-            case .Later:
-                laterList.append(task)
-            case .Done:
-                doneList.append(task)
-            case .Never:
-                neverList.append(task)
-            default:
-                fatalError("Unknown list type encountered.")
-            }
-        }
-        
-        switch list {
-        case .Today:
-            return .success(todayList)
-            
-        case .Later:
-            return .success(laterList)
-            
-        case .Never:
-            return .success(neverList)
-            
-        case .Done:
-            return .success(doneList)
-        }
-    }
-
-    func updateTask(on list: ListType, at index: Int, with task: Task) -> Result<Task, StorageErrors> {
-        guard isInBounds(of: list, for: index) else {
-            return .failure(.UnableToUpdateRecordError)
-        }
-        
-        switch list {
-        case .Today:
-            todayList[index] = task
-            // todayListDelegate?.didUpdateList()
-        
-        case .Later:
-            laterList[index] = task
-            // laterListDelegate?.didUpdateList()
-        
-        case .Never:
-            neverList[index] = task
-            // neverListDelegate?.didUpdateList()
-        
-        case .Done:
-            doneList[index] = task
-            // doneListDelegate?.didUpdateList()
-        }
-        
-        return .success(task)
-        
-    }
-
-    func deleteTask(at index: Int, from list: ListType) -> Result<Task, StorageErrors> {
-        guard isInBounds(of: list, for: index) else {
-            return .failure(.UnableToDeleteRecordError)
-        }
-        
-        switch list {
-        case .Today:
-            // todayListDelegate?.didUpdateList()
-            return .success(todayList.remove(at: index))
-            
-        case .Later:
-            // laterListDelegate?.didUpdateList()
-            return .success(laterList.remove(at: index))
-            
-        case .Never:
-            // neverListDelegate?.didUpdateList()
-            return .success(neverList.remove(at: index))
-            
-        case .Done:
-            // doneListDelegate?.didUpdateList()
-            return .success(doneList.remove(at: index))
-        }
-    }
-     
-    // MARK: - Private Methods
-    private func isInBounds(of list: ListType, for index: Int) -> Bool {
-        guard index >= 0 else {
-            return false
-        }
-        
-        switch list {
-        case .Today:
-            return index < todayList.count
-            
-        case .Later:
-            return index < laterList.count
-            
-        case .Never:
-            return index < neverList.count
-            
-        case .Done:
-            return index < doneList.count
+            fatalError("Error while saving the items \(error)")
         }
     }
 }
